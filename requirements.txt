@@ -14,13 +14,10 @@ pytz
 pillow==9.5.0
 psutil
 py-tgcalls>=2.3.0
-pykeyboard
 python-dotenv
 pyyaml
 requests
 SafoneAPI
-speedtest-cli
-spotipy
 tgcrypto>=1.2.5
 kurigram==2.2.24
 telegraph
