@@ -207,6 +207,7 @@ class Call(PyTgCalls):
                     "streamtype": current.get("streamtype", "audio"),
                     "by": "Spotify AutoPlay 🤖",
                     "user_id": 0,
+                    # ✅ FIX: ROUTING FIX (Preserve original chat ID)
                     "chat_id": current.get("chat_id", chat_id),
                     "file": f"vid_{recommendation.get('vidid', '')}",
                     "vidid": str(recommendation.get("vidid", "")),
@@ -454,6 +455,7 @@ class Call(PyTgCalls):
                             status = str(getattr(update, "status", "")).upper()
                             if "KICKED" in status or "LEFT" in status or "CLOSED" in status:
                                 await self.stop_stream(c_id)
+                        # ✅ FIX: PyTgCalls v3.0+ event detection
                         elif any(event in t_name for event in ["StreamAudioEnded", "StreamVideoEnded"]):
                             await self.change_stream(client, c_id)
                     except Exception as e:
@@ -571,6 +573,7 @@ class Call(PyTgCalls):
                                 "streamtype": popped.get("streamtype", "audio") if popped else "audio",
                                 "by": "Spotify Radio 🟢",
                                 "user_id": 0,
+                                # ✅ FIX: ROUTING FIX (Preserve original chat ID)
                                 "chat_id": popped.get("chat_id", chat_id) if popped else chat_id,
                                 "file": f"vid_{recommendation.get('vidid', '')}",
                                 "vidid": str(recommendation.get("vidid", "")),
@@ -693,9 +696,9 @@ class Call(PyTgCalls):
                 except: pass
                 
             elif "vid_" in queued:
-                # 🟢 NORMAL MYSTIC LOADING MESSAGE (will be deleted later)
+                # ✅ FAST AUTOPLAY FIX: Skip blocking message if Autoplay
                 if db[chat_id][0].get("by") == "Spotify AutoPlay 🤖":
-                    mystic = await chat_client.send_message(original_chat_id, "🚀 **Switching Track...**")
+                    mystic = False 
                 else:
                     mystic = await chat_client.send_message(original_chat_id, _["call_7"])
                     
@@ -704,14 +707,16 @@ class Call(PyTgCalls):
                 except:
                     try: file_path, direct = await YouTube.download(videoid, mystic, videoid=True, video=video)
                     except:
-                        try: await mystic.edit_text("⚠️ **YouTube Timeout! Skipping...**", disable_web_page_preview=True)
-                        except: pass
+                        if mystic:
+                            try: await mystic.edit_text("⚠️ **YouTube Timeout! Skipping...**", disable_web_page_preview=True)
+                            except: pass
                         await asyncio.sleep(2)
                         return await self.change_stream(client, chat_id)
                 
                 if not file_path or str(file_path) == "None":
-                    try: await mystic.edit_text("❌ **Error:** Download failed. Skipping track...")
-                    except: pass
+                    if mystic:
+                        try: await mystic.edit_text("❌ **Error:** Download failed. Skipping track...")
+                        except: pass
                     await asyncio.sleep(2)
                     return await self.change_stream(client, chat_id)
 
@@ -722,8 +727,9 @@ class Call(PyTgCalls):
                 button = stream_markup(_, chat_id)
                 
                 # 🟢 MYSTIC DELETE PRESERVED
-                try: await mystic.delete()
-                except: pass
+                if mystic:
+                    try: await mystic.delete()
+                    except: pass
                 
                 try:
                     run = await chat_client.send_photo(
@@ -828,6 +834,7 @@ class Call(PyTgCalls):
                     status = str(getattr(update, "status", "")).upper()
                     if "KICKED" in status or "LEFT" in status or "CLOSED" in status:
                         await self.stop_stream(c_id)
+                # ✅ FIX: PyTgCalls v3.0+ event detection
                 elif any(event in t_name for event in ["StreamAudioEnded", "StreamVideoEnded"]):
                     await self.change_stream(client, c_id)
             except Exception as e:
