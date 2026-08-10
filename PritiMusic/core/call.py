@@ -207,7 +207,7 @@ class Call(PyTgCalls):
                     "streamtype": current.get("streamtype", "audio"),
                     "by": "Spotify AutoPlay 🤖",
                     "user_id": 0,
-                    "chat_id": chat_id,
+                    "chat_id": current.get("chat_id", chat_id),
                     "file": f"vid_{recommendation.get('vidid', '')}",
                     "vidid": str(recommendation.get("vidid", "")),
                     "seconds": recommendation.get("duration_sec", 0),
@@ -454,7 +454,7 @@ class Call(PyTgCalls):
                             status = str(getattr(update, "status", "")).upper()
                             if "KICKED" in status or "LEFT" in status or "CLOSED" in status:
                                 await self.stop_stream(c_id)
-                        elif "StreamEnd" in t_name:
+                        elif any(event in t_name for event in ["StreamAudioEnded", "StreamVideoEnded"]):
                             await self.change_stream(client, c_id)
                     except Exception as e:
                         LOGGER(__name__).error(f"❌ Clone stream handler exception: {e}")
@@ -571,7 +571,7 @@ class Call(PyTgCalls):
                                 "streamtype": popped.get("streamtype", "audio") if popped else "audio",
                                 "by": "Spotify Radio 🟢",
                                 "user_id": 0,
-                                "chat_id": chat_id,
+                                "chat_id": popped.get("chat_id", chat_id) if popped else chat_id,
                                 "file": f"vid_{recommendation.get('vidid', '')}",
                                 "vidid": str(recommendation.get("vidid", "")),
                                 "seconds": recommendation.get("duration_sec", 0),
@@ -828,7 +828,7 @@ class Call(PyTgCalls):
                     status = str(getattr(update, "status", "")).upper()
                     if "KICKED" in status or "LEFT" in status or "CLOSED" in status:
                         await self.stop_stream(c_id)
-                elif "StreamEnd" in t_name:
+                elif any(event in t_name for event in ["StreamAudioEnded", "StreamVideoEnded"]):
                     await self.change_stream(client, c_id)
             except Exception as e:
                 LOGGER(__name__).error(f"Stream handler error: {e}")
