@@ -9,12 +9,12 @@ from PritiMusic import app
 import config
 from PritiMusic.utils.formatters import time_to_seconds
 
-# 🔥 PREMIUM EMOJIS LIST 🔥
+# 💎 Premium Emojis ID List for Pyrogram's icon_custom_emoji_id
 PREMIUM_EMOJIS = [
-    "5422831825178206894", 
-    "5368324170673489600",
-    "5206607081334906820",
-    "5206380668048496464"
+    5258362837411045098, 6102938383456146362, 5463274047771000031, 6100397162976252509,
+    5373310679241466020, 5408916593780470262, 5776182936638329359, 5258389041006518073,
+    6280269890821558384, 5936143551854285132, 6172332822892647766, 5891211339170326418,
+    5409368076447657845, 6172312314423808834, 6082387600599944892, 6271537028307881531
 ]
 
 # 🎨 Dynamic Color Generator
@@ -115,7 +115,7 @@ def stream_markup(_, chat_id):
             create_btn(text="▢", cb=f"ADMIN Stop|{chat_id}", style=s_map[3], no_emoji=True),
         ],
         [
-            create_btn(text="❖ 𝐀ᴜᴛᴏ𝐏ʟᴀʏ ❖", cb=f"ADMIN Autoplay|{chat_id}", style=s_map[1]),
+            create_btn(text="𝐀ᴜᴛᴏ𝐏ʟᴀʏ", cb=f"ADMIN Autoplay|{chat_id}", style=s_map[1]),
             clone_button(s_map[1])
         ],
         [
@@ -197,7 +197,7 @@ def queue_markup(_, videoid, chat_id):
             create_btn(text="▢", cb=f"ADMIN Stop|{chat_id}", style=s_map[3], no_emoji=True),
         ],
         [
-            create_btn(text="❖ 𝐀ᴜᴛᴏ𝐏ʟᴀʏ ❖", cb=f"ADMIN Autoplay|{chat_id}", style=s_map[1]),
+            create_btn(text="𝐀ᴜᴛᴏ𝐏ʟᴀʏ", cb=f"ADMIN Autoplay|{chat_id}", style=s_map[1]),
             clone_button(s_map[1])
         ],
         [
@@ -222,7 +222,7 @@ def panel_markup_1(_, videoid, chat_id):
             create_btn(text=_["S_B_3"], url=f"https://t.me/{app.username}?startgroup=true", style=s_map[1]),
         ],
         [
-            create_btn(text="sᴜғғʟᴇ", cb=f"ADMIN Shuffle|{chat_id}", style=s_map[3], no_emoji=True),
+            create_btn(text="sʜᴜғғʟᴇ", cb=f"ADMIN Shuffle|{chat_id}", style=s_map[3], no_emoji=True),
             create_btn(text="ʟᴏᴏᴘ ↺", cb=f"ADMIN Loop|{chat_id}", style=s_map[3], no_emoji=True),
         ],
         [
@@ -230,7 +230,7 @@ def panel_markup_1(_, videoid, chat_id):
             create_btn(text="10 sᴇᴄ ▷", cb=f"ADMIN 2|{chat_id}", style=s_map[2], no_emoji=True),
         ],
         [
-            create_btn(text="❖ 𝐀ᴜᴛᴏ𝐏ʟᴀʏ ❖", cb=f"ADMIN Autoplay|{chat_id}", style=s_map[1]),
+            create_btn(text="𝐀ᴜᴛᴏ𝐏ʟᴀʏ", cb=f"ADMIN Autoplay|{chat_id}", style=s_map[1]),
             clone_button(s_map[1])
         ],
         [
@@ -278,7 +278,7 @@ def panel_markup_5(_, videoid, chat_id):
             create_btn(text="▢", cb=f"ADMIN Stop|{chat_id}", style=s_map[3], no_emoji=True),
         ],
         [
-            create_btn(text="❖ 𝐀ᴜᴛᴏ𝐏ʟᴀʏ ❖", cb=f"ADMIN Autoplay|{chat_id}", style=s_map[1]),
+            create_btn(text="𝐀ᴜᴛᴏ𝐏ʟᴀʏ", cb=f"ADMIN Autoplay|{chat_id}", style=s_map[1]),
             clone_button(s_map[1])
         ],
         [
@@ -342,7 +342,7 @@ def panel_markup_4(_, vidid, chat_id, played, dur):
             create_btn(text="▢", cb=f"ADMIN Stop|{chat_id}", style=s_map[3], no_emoji=True),
         ],
         [
-            create_btn(text="❖ 𝐀ᴜᴛᴏ𝐏ʟᴀʏ ❖", cb=f"ADMIN Autoplay|{chat_id}", style=s_map[1]),
+            create_btn(text="𝐀ᴜᴛᴏ𝐏ʟᴀʏ", cb=f"ADMIN Autoplay|{chat_id}", style=s_map[1]),
             clone_button(s_map[1])
         ],
         [
@@ -385,12 +385,11 @@ def panel_markup_clone(_, vidid, chat_id, played, dur):
             create_btn(text="▢", cb=f"ADMIN Stop|{chat_id}", style=s_map[3], no_emoji=True),
         ],
         [
-            # Loop aur Shuffle ko hata diya gaya hai 🚀
             create_btn(text="<- 20s", cb=f"ADMIN SeekBack|{chat_id}", style=s_map[4], no_emoji=True),
             create_btn(text="20s + ->", cb=f"ADMIN SeekForward|{chat_id}", style=s_map[4], no_emoji=True),
         ],
         [
-            create_btn(text="❖ 𝐀ᴜᴛᴏ𝐏ʟᴀʏ ❖", cb=f"ADMIN Autoplay|{chat_id}", style=s_map[1]),
+            create_btn(text="𝐀ᴜᴛᴏ𝐏ʟᴀʏ", cb=f"ADMIN Autoplay|{chat_id}", style=s_map[1]),
             clone_button(s_map[1])
         ],
         [
