@@ -66,17 +66,17 @@ async def delete_promo_record(chat_id: int, message_id: int):
 # ==========================================
 PROMO_IMAGE = "https://files.catbox.moe/etdhlr.jpg"
 PROMO_TEXT = """
-⊚ ᴛʜɪꜱ ɪꜱ [✶ 🎀 ᴍᴀʜɪ ᴍᴜꜱɪᴄ ᴄʟᴏɴᴇ 🎀 ✶](https://t.me/clone_MUSICrobot)
+<tg-emoji emoji-id="6172312314423808834">✨</tg-emoji> ᴛʜɪꜱ ɪꜱ [✶ 🎀 ᴍᴀʜɪ ᴍᴜꜱɪᴄ ᴄʟᴏɴᴇ 🎀 ✶](https://t.me/clone_MUSICrobot)
 
-➻ ᴧ ᴘʀєᴍɪᴜᴍ ᴅєꜱɪɢηєᴅ ϻᴜꜱɪᴄ ᴘʟᴧʏєʀ ʙσᴛ ꜰσʀ ᴛєʟєɢʀᴧϻ ɢʀσᴜᴘ & ᴄʜᴧηηєʟ. 
-🎧 24x7 ᴍᴜꜱɪᴄ • ꜱᴍᴏᴏᴛʜ ᴀɴᴅ ꜰᴀꜱᴛ ᴘʟᴀʏʙᴀᴄᴋ
+<tg-emoji emoji-id="6271537028307881531">💎</tg-emoji> ᴧ ᴘʀєᴍɪᴜᴍ ᴅєꜱɪɢηєᴅ ϻᴜꜱɪᴄ ᴘʟᴧʏєʀ ʙσᴛ ꜰσʀ ᴛєʟєɢʀᴧϻ ɢʀσᴜᴘ & ᴄʜᴧηηєʟ. 
+<tg-emoji emoji-id="6082387600599944892">🎧</tg-emoji> 24x7 ᴍᴜꜱɪᴄ • ꜱᴍᴏᴏᴛʜ ᴀɴᴅ ꜰᴀꜱᴛ ᴘʟᴀʏʙᴀᴄᴋ
 
-⚡️ ᴇɴᴊᴏʏ ᴜɴʟɪᴍɪᴛᴇᴅ ꜱᴏɴɢꜱ, qᴜɪᴄᴋ ʀᴇꜱᴘᴏɴꜱᴇ, ᴀɴᴅ ᴄʟᴇᴀʀ ᴀᴜᴅɪᴏ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ.
+<tg-emoji emoji-id="6100220081474639964">⚡️</tg-emoji> ᴇɴᴊᴏʏ ᴜɴʟɪᴍɪᴛᴇᴅ ꜱᴏɴɢꜱ, qᴜɪᴄᴋ ʀᴇꜱᴘᴏɴꜱᴇ, ᴀɴᴅ ᴄʟᴇᴀʀ ᴀᴜᴅɪᴏ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ.
 
-ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ, ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ, ᴀɴᴅ ꜱᴇɴᴅ /play song name ᴛᴏ ꜱᴛᴀʀᴛ ᴛʜᴇ ᴍᴜꜱɪᴄ.
+<tg-emoji emoji-id="6100424015111787987">📌</tg-emoji> ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ, ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ, ᴀɴᴅ ꜱᴇɴᴅ /play song name ᴛᴏ ꜱᴛᴀʀᴛ ᴛʜᴇ ᴍᴜꜱɪᴄ.
 """
 PROMO_BUTTON = InlineKeyboardMarkup(
-    [[InlineKeyboardButton("🎵 Aᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ 🎧", url="https://t.me/clone_MUSICrobot?startgroup=true")]]
+    [[InlineKeyboardButton("✨ Aᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ✨", url="https://t.me/clone_MUSICrobot?startgroup=true")]]
 )
 
 
@@ -231,10 +231,10 @@ async def run_promo_broadcast(status_message=None):
             bar = get_progress_bar(completed, total_targets)
             percent = int((completed / total_targets) * 100) if total_targets else 100
             text = (
-                f"🔄 **Live Promo Broadcasting...**\n\n"
+                f"<tg-emoji emoji-id=\"5373310679241466020\">🌀</tg-emoji> **Live Promo Broadcasting...**\n\n"
                 f"[{bar}] **{percent}%**\n\n"
-                f"👥 **Users:** ✅ {u_success} | ❌ {u_failed}\n"
-                f"🏘 **Groups:** ✅ {g_success} | ❌ {g_failed}"
+                f"<tg-emoji emoji-id=\"6032609071373226027\">👥</tg-emoji> **Users:** <tg-emoji emoji-id=\"6280269890821558384\">✅</tg-emoji> {u_success} | <tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> {u_failed}\n"
+                f"<tg-emoji emoji-id=\"6021618194228187816\">💬</tg-emoji> **Groups:** <tg-emoji emoji-id=\"6280269890821558384\">✅</tg-emoji> {g_success} | <tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> {g_failed}"
             )
             try:
                 await status_message.edit_text(text)
@@ -278,7 +278,7 @@ async def run_promo_broadcast(status_message=None):
 async def promo_toggle_cmd(client, message):
     if len(message.command) != 2:
         return await message.reply_text(
-            "**Usage Options:**\n"
+            "<tg-emoji emoji-id=\"5767288287001580715\">💡</tg-emoji> **Usage Options:**\n"
             "`/selfpromo on` - Start auto 24-hour broadcast\n"
             "`/selfpromo off` - Stop auto broadcast\n"
             "`/selfpromo run` - Instantly broadcast right now"
@@ -288,29 +288,29 @@ async def promo_toggle_cmd(client, message):
     
     if state == "on":
         await set_promo_status(True)
-        await message.reply_text("✅ **Auto Self Promo Started!**\nBot will broadcast every 24 hours.")
+        await message.reply_text("<tg-emoji emoji-id=\"6280269890821558384\">✅</tg-emoji> **Auto Self Promo Started!**\nBot will broadcast every 24 hours.")
     elif state == "off":
         await set_promo_status(False)
-        await message.reply_text("❌ **Auto Self Promo Stopped!**")
+        await message.reply_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Auto Self Promo Stopped!**")
     elif state == "run":
-        status_msg = await message.reply_text("🔄 **Calculating stats & initializing broadcast...**")
+        status_msg = await message.reply_text("<tg-emoji emoji-id=\"5373310679241466020\">🌀</tg-emoji> **Calculating stats & initializing broadcast...**")
         try:
             # We pass the status_msg so the function can edit it live
             u_success, u_failed, g_success, g_failed = await run_promo_broadcast(status_message=status_msg)
             
             # Final completion message
             stats_text = (
-                f"📢 **Manual Promo Completed** ✅\n\n"
-                f"👥 **Users:** ✅ {u_success} | ❌ {u_failed}\n"
-                f"🏘 **Groups:** ✅ {g_success} | ❌ {g_failed}"
+                f"<tg-emoji emoji-id=\"6039381989985882045\">📢</tg-emoji> **Manual Promo Completed** <tg-emoji emoji-id=\"6280269890821558384\">✅</tg-emoji>\n\n"
+                f"<tg-emoji emoji-id=\"6032609071373226027\">👥</tg-emoji> **Users:** <tg-emoji emoji-id=\"6280269890821558384\">✅</tg-emoji> {u_success} | <tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> {u_failed}\n"
+                f"<tg-emoji emoji-id=\"6021618194228187816\">💬</tg-emoji> **Groups:** <tg-emoji emoji-id=\"6280269890821558384\">✅</tg-emoji> {g_success} | <tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> {g_failed}"
             )
             await status_msg.edit_text(stats_text)
             if LOGGER_ID:
                 await app.send_message(LOGGER_ID, stats_text)
         except Exception as e:
-            await status_msg.edit_text(f"❌ Error: {e}")
+            await status_msg.edit_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> Error: {e}")
     else:
-        await message.reply_text("**Invalid argument.** Use `on`, `off`, or `run`.")
+        await message.reply_text("<tg-emoji emoji-id=\"6102938383456146362\">⚠️</tg-emoji> **Invalid argument.** Use `on`, `off`, or `run`.")
 
 
 # ==========================================
@@ -352,7 +352,11 @@ async def auto_promo_task():
                 if (int(time.time()) - last_run) >= 86400: # 24 hours
                     u_success, u_failed, g_success, g_failed = await run_promo_broadcast()
                     if LOGGER_ID:
-                        stats_text = f"📢 **Auto Promo Completed**\n\n👥 **Users:** ✅ {u_success} | ❌ {u_failed}\n🏘 **Groups:** ✅ {g_success} | ❌ {g_failed}"
+                        stats_text = (
+                            f"<tg-emoji emoji-id=\"6039381989985882045\">📢</tg-emoji> **Auto Promo Completed**\n\n"
+                            f"<tg-emoji emoji-id=\"6032609071373226027\">👥</tg-emoji> **Users:** <tg-emoji emoji-id=\"6280269890821558384\">✅</tg-emoji> {u_success} | <tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> {u_failed}\n"
+                            f"<tg-emoji emoji-id=\"6021618194228187816\">💬</tg-emoji> **Groups:** <tg-emoji emoji-id=\"6280269890821558384\">✅</tg-emoji> {g_success} | <tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> {g_failed}"
+                        )
                         await app.send_message(LOGGER_ID, stats_text)
         except:
             pass
