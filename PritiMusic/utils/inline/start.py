@@ -6,27 +6,26 @@ from pyrogram import filters
 from pyrogram.errors import WebpageMediaEmpty
 from pyrogram.enums import ButtonStyle 
 
-from PritiMusic import YouTube, app
-# ❌ Yahan se 'Lucky' ka import hata diya gaya hai taaki Circular Import Error na aaye
-from PritiMusic.misc import SUDOERS, db
-from PritiMusic.utils.database import (
-    get_active_chats, get_lang, get_upvote_count, is_active_chat,
-    is_music_playing, is_nonadmin_chat, music_off, music_on, set_loop, get_assistant,
-    is_autoplay_on, autoplay_on, autoplay_off
-)
-
-from PritiMusic.utils.decorators.language import languageCB
-from PritiMusic.utils.formatters import seconds_to_min
-from PritiMusic.utils.inline import close_markup, stream_markup, stream_markup_timer
-from PritiMusic.utils.stream.autoclear import auto_clean
-from PritiMusic.utils.thumbnails import get_thumb
 import config
 from config import (
     BANNED_USERS, SOUNCLOUD_IMG_URL, STREAM_IMG_URL, TELEGRAM_AUDIO_URL,
     TELEGRAM_VIDEO_URL, START_IMG_URL, adminlist, confirmer, votemode
 )
 from strings import get_string
-from PritiMusic.utils.inline.start import private_panel
+from PritiMusic import YouTube, app
+from PritiMusic.misc import SUDOERS, db
+from PritiMusic.utils.database import (
+    get_active_chats, get_lang, get_upvote_count, is_active_chat,
+    is_music_playing, is_nonadmin_chat, music_off, music_on, set_loop, get_assistant,
+    is_autoplay_on, autoplay_on, autoplay_off
+)
+from PritiMusic.utils.decorators.language import languageCB
+from PritiMusic.utils.formatters import seconds_to_min
+from PritiMusic.utils.stream.autoclear import auto_clean
+from PritiMusic.utils.thumbnails import get_thumb
+
+# ❌ CIRCULAR IMPORTS REMOVED ❌
+# Ab 'private_panel' ya 'Lucky' ko globally import nahi kiya hai jisse crash hota tha.
 
 checker = {}
 upvoters = {}
@@ -46,11 +45,13 @@ def get_style_map():
     return {1: styles[0], 2: styles[1], 3: styles[2], 4: styles[0]}
 
 # 🔘 Smart Button Creator
-def create_btn(text, cb=None, url=None, style=ButtonStyle.PRIMARY, emoji_id=None, no_emoji=False):
+def create_btn(text, cb=None, url=None, user_id=None, style=ButtonStyle.PRIMARY, emoji_id=None, no_emoji=False):
     kwargs = {"text": text, "style": style}
     if cb: kwargs["callback_data"] = cb
     if url: kwargs["url"] = url
+    if user_id: kwargs["user_id"] = user_id
     
+    # Premium Emoji Logic
     if emoji_id:
         kwargs["icon_custom_emoji_id"] = int(emoji_id)
     elif not no_emoji:
@@ -58,6 +59,65 @@ def create_btn(text, cb=None, url=None, style=ButtonStyle.PRIMARY, emoji_id=None
         
     return InlineKeyboardButton(**kwargs)
 
+# ==========================================
+# 🎛️ PANEL MARKUP FUNCTIONS
+# ==========================================
+def start_panel(_):
+    s_map = get_style_map()
+    buttons = [
+        [
+            create_btn(text=_["SO_B_1"], url=f"https://t.me/{app.username}?startgroup=true", style=s_map[2]),
+            create_btn(text=_["S_B_2"], url=config.SUPPORT_CHAT, style=s_map[2]),
+        ],
+    ]
+    return buttons
+
+def private_panel(_):
+    s_map = get_style_map()
+    buttons = [
+        [create_btn(text=_["S_B_3"], url=f"https://t.me/{app.username}?startgroup=true", style=s_map[1])],
+        [
+            create_btn(text=_["S_B_5"], user_id=config.OWNER_ID, style=s_map[2]),
+            create_btn(text="ᴄʟᴏɴᴇ", cb="clone_page", style=s_map[2])
+        ],
+        [
+            create_btn(text="sᴜᴘᴘᴏʀᴛ", cb="support_page", style=s_map[2]),
+            create_btn(text="sᴏᴜʀᴄᴇ", cb="gib_source", style=s_map[2])
+        ],
+        [create_btn(text=_["S_B_4"], cb="settings_back_helper", style=s_map[1])],
+    ]
+    return buttons
+
+def support_panel(_):
+    s_map = get_style_map()
+    buttons = [
+        [
+            create_btn(text=_["S_B_2"], url=config.SUPPORT_CHAT, style=s_map[2]),
+            create_btn(text=_["S_B_6"], url=config.SUPPORT_CHANNEL, style=s_map[2]),
+        ],
+        [create_btn(text=_["BACK_BUTTON"], cb="settingsback_helper", style=s_map[1])]
+    ]
+    return buttons
+
+def about_panel(_):
+    s_map = get_style_map()
+    buttons = [
+        [
+            create_btn(text=_["S_B_5"], user_id=config.OWNER_ID, style=s_map[2]),
+            create_btn(text=_["S_B_11"], url=config.GITHUB, style=s_map[2]),
+        ],
+        [
+            create_btn(text=_["S_B_6"], url=config.SUPPORT_CHANNEL, style=s_map[2]),
+            create_btn(text=_["S_B_2"], url=config.SUPPORT_CHAT, style=s_map[2])
+        ],
+        [create_btn(text=_["BACK_BUTTON"], cb="settingsback_helper", style=s_map[1])]
+    ]
+    return buttons
+
+
+# ==========================================
+# ⚙️ CALLBACK QUERIES
+# ==========================================
 @app.on_callback_query(filters.regex("settingsback_helper") & ~BANNED_USERS)
 @languageCB
 async def settings_back_helper(client, CallbackQuery, _):
@@ -99,9 +159,7 @@ async def clone_page_cb(client, CallbackQuery, _):
             caption=clone_text
         ),
         reply_markup=InlineKeyboardMarkup(
-            [
-                [create_btn(text="ʙᴧᴄᴋ", cb="settingsback_helper", style=style_map[1], emoji_id=5352759161945867747)]
-            ]
+            [[create_btn(text="ʙᴧᴄᴋ", cb="settingsback_helper", style=style_map[1], emoji_id=5352759161945867747)]]
         )
     )
 
@@ -121,12 +179,8 @@ async def support_page_cb(client, CallbackQuery, _):
             create_btn(text="υᴘᴅᴧᴛєs", url="https://t.me/betabot_hub", style=style_map[1], emoji_id=6039381989985882045),
             create_btn(text="sυᴘᴘσʀᴛ", url="https://t.me/betabot_support", style=style_map[2], emoji_id=6021618194228187816)
         ],
-        [
-            create_btn(text="ʙσᴛs", url="https://t.me/betabot_hub/6701", style=style_map[3], emoji_id=5355051922862653659)
-        ],
-        [
-            create_btn(text="ʙᴧᴄᴋ", cb="settingsback_helper", style=style_map[4], emoji_id=5352759161945867747)
-        ]
+        [create_btn(text="ʙσᴛs", url="https://t.me/betabot_hub/6701", style=style_map[3], emoji_id=5355051922862653659)],
+        [create_btn(text="ʙᴧᴄᴋ", cb="settingsback_helper", style=style_map[4], emoji_id=5352759161945867747)]
     ]
 
     await CallbackQuery.edit_message_media(
@@ -147,14 +201,12 @@ async def gib_repo_callback(_, callback_query):
                 media=image_url, 
                 caption=f"<blockquote><b><tg-emoji emoji-id=\"5258389041006518073\">📂</tg-emoji> ʀєᴘσ = ||ɪsᴛᴋʜᴧʀ ᴧηᴅ ᴅєᴠɪʟ ᴋσ ᴘᴧᴘᴧ ʙσʟ ᴄʜᴧʟ ʙσʟ😎||</b></blockquote>"
             ),
-            reply_markup=InlineKeyboardMarkup(
+            reply_markup=InlineKeyboardMarkup([
                 [
-                    [
-                        create_btn(text="ʙᴧᴄᴋ", cb="settingsback_helper", style=style_map[1], emoji_id=5352759161945867747),
-                        create_btn(text="ᴄʟσsє", cb="close", style=style_map[2], emoji_id=6271611232457855630)
-                    ]
+                    create_btn(text="ʙᴧᴄᴋ", cb="settingsback_helper", style=style_map[1], emoji_id=5352759161945867747),
+                    create_btn(text="ᴄʟσsє", cb="close", style=style_map[2], emoji_id=6271611232457855630)
                 ]
-            ),
+            ]),
         )
     except Exception as e:
         await callback_query.answer(f"Error: {str(e)}", show_alert=True)
@@ -172,8 +224,9 @@ async def unban_assistant(_, callback: CallbackQuery):
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
 @languageCB
 async def del_back_playlist(client, CallbackQuery, _):
-    # ✅ LOCAL IMPORT: Yahan import karne se circular import error completely fix ho jayega
-    from PritiMusic.core.call import Lucky 
+    # ✅ Local Import fixed crash
+    from PritiMusic.core.call import Lucky
+    from PritiMusic.utils.inline import close_markup, stream_markup
 
     callback_data = CallbackQuery.data.strip()
     callback_request = callback_data.split(None, 1)[1]
@@ -335,6 +388,9 @@ async def del_back_playlist(client, CallbackQuery, _):
         await CallbackQuery.edit_message_text(txt, reply_markup=close_markup(_))
 
 async def markup_timer():
+    # ✅ Local Import fixed crash
+    from PritiMusic.utils.inline import stream_markup_timer
+    
     while not await asyncio.sleep(7):
         active_chats = await get_active_chats()
         for chat_id in active_chats:
