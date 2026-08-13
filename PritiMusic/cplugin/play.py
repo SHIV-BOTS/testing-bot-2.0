@@ -75,8 +75,8 @@ from config import BANNED_USERS, lyrical
 # =======================================================
 # 🎨 PREMIUM TEXT STYLES (BETA HUB)
 # =======================================================
-MSG_DOWNLOADING = "➛ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐅𝐫𝐨𝐦 𝐁𝐞𝐭𝐚 𝐇𝐮𝐛 𝐁𝐚𝐛𝐲 𝐩𝐥𝐞𝐚𝐬𝐞 𝐰𝐚𝐢𝐭😁...."
-MSG_STARTING = "➛ 𝐒𝐭𝐚𝐫𝐭𝐢𝐧𝐠 𝐒𝐭𝐫𝐞𝐚𝐦 𝐄𝐧𝐣𝐨𝐲❤️...."
+MSG_DOWNLOADING = "<tg-emoji emoji-id=\"6156513311585211842\">🌀</tg-emoji> 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐅𝐫𝐨𝐦 𝐁𝐞𝐭𝐚 𝐇𝐮𝐛 𝐁𝐚𝐛𝐲 𝐩𝐥𝐞𝐚𝐬𝐞 𝐰𝐚𝐢𝐭...."
+MSG_STARTING = "<tg-emoji emoji-id=\"6129476453802188018\">▶️</tg-emoji> 𝐒𝐭𝐚𝐫𝐭𝐢𝐧𝐠 𝐒𝐭𝐫𝐞𝐚𝐦 𝐄𝐧𝐣𝐨𝐲...."
 
 # =======================================================
 # 🚀 STYLISH LIVE PROGRESS BAR
@@ -104,10 +104,10 @@ async def stylish_progress_bar(current, total, msg, start_time):
     bar = "▰" * filled + "▱" * empty
 
     text = f"**{MSG_DOWNLOADING}**\n\n"
-    text += f"**⚡ 𝐏𝐫𝐨𝐠𝐫𝐞𝐬𝐬:** `[{bar}] {round(percentage, 2)}%`\n"
-    text += f"**📥 𝐒𝐢𝐳𝐞:** `{downloaded} MB / {total_size} MB`\n"
-    text += f"**🚀 𝐒𝐩𝐞𝐞𝐝:** `{speed} MB/s`\n"
-    text += f"**⏳ 𝐄𝐓𝐀:** `{eta} sec`\n"
+    text += f"<tg-emoji emoji-id=\"6100220081474639964\">⚡</tg-emoji> **𝐏𝐫𝐨𝐠𝐫𝐞𝐬𝐬:** `[{bar}] {round(percentage, 2)}%`\n"
+    text += f"<tg-emoji emoji-id=\"5409186957676785646\">📥</tg-emoji> **𝐒𝐢𝐳𝐞:** `{downloaded} MB / {total_size} MB`\n"
+    text += f"<tg-emoji emoji-id=\"6172332822892647766\">🚀</tg-emoji> **𝐒𝐩𝐞𝐞𝐝:** `{speed} MB/s`\n"
+    text += f"<tg-emoji emoji-id=\"5891211339170326418\">⏳</tg-emoji> **𝐄𝐓𝐀:** `{eta} sec`\n"
 
     try:
         await msg.edit_text(text)
@@ -191,10 +191,10 @@ async def send_security_log(message: Message, breach_type: str, payload: str):
         user_id = message.from_user.id
 
         log_text = (
-            f"**🚨 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: {breach_type} 🚨**\n\n"
-            f"**👤 ᴜsᴇʀ:** {user_mention} (`{user_id}`)\n"
-            f"**🏠 ᴄʜᴀᴛ:** {chat_title} (`{chat_id}`)\n"
-            f"**⚠️ ᴘᴀʏʟᴏᴀᴅ:** `{payload}`"
+            f"<tg-emoji emoji-id=\"6102938383456146362\">🚨</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: {breach_type}**\n\n"
+            f"<tg-emoji emoji-id=\"6032609071373226027\">👤</tg-emoji> **ᴜsᴇʀ:** {user_mention} (`{user_id}`)\n"
+            f"<tg-emoji emoji-id=\"6100424015111787987\">🏠</tg-emoji> **ᴄʜᴀᴛ:** {chat_title} (`{chat_id}`)\n"
+            f"<tg-emoji emoji-id=\"6102938383456146362\">⚠️</tg-emoji> **ᴘᴀʏʟᴏᴀᴅ:** `{payload}`"
         )
         await app.send_message(config.LOGGER_ID, text=log_text)
     except Exception:
@@ -314,7 +314,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
         user_last_message_time[user_id] = current_time
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
         if user_command_count[user_id] > SPAM_THRESHOLD:
-            hu = await message.reply_text(f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏ ɴᴏᴛ sᴘᴀᴍ. ᴛʀʏ ᴀɢᴀɪɴ ɪɴ 5 sᴇᴄᴏɴᴅs.**")
+            hu = await message.reply_text(f"<tg-emoji emoji-id=\"6102938383456146362\">⚠️</tg-emoji> **{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏ ɴᴏᴛ sᴘᴀᴍ. ᴛʀʏ ᴀɢᴀɪɴ ɪɴ 5 sᴇᴄᴏɴᴅs.**")
             await asyncio.sleep(3)
             return await hu.delete()
     else:
@@ -351,7 +351,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
     # ===========================================================
     if audio_telegram:
         if audio_telegram.file_size > 4294967296: # 4GB Limit
-            return await mystic.edit_text("❌ **File is too large! Maximum allowed limit is 4GB.**")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **File is too large! Maximum allowed limit is 4GB.**")
             
         duration_min = seconds_to_min(audio_telegram.duration) if hasattr(audio_telegram, 'duration') and audio_telegram.duration else "Unknown"
         
@@ -360,12 +360,12 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
         
         if audio_telegram.file_size > 20971520: # 20 MB limit switch
             if not userbot:
-                return await mystic.edit_text("❌ **Assistant Required!**\nTo play files larger than 20MB, the assistant account must be active.")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Assistant Required!**\nTo play files larger than 20MB, the assistant account must be active.")
             dl_client = userbot
             try:
                 msg_to_dl = await userbot.get_messages(message.chat.id, message.reply_to_message.id)
             except Exception as e:
-                return await mystic.edit_text(f"❌ **Assistant Access Error:** `{e}`")
+                return await mystic.edit_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Assistant Access Error:** `{e}`")
 
         try:
             start_time = time.time()
@@ -376,7 +376,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
                 progress_args=(mystic, start_time)
             )
         except Exception as e:
-            return await mystic.edit_text(f"❌ **Download Error:** `{e}`")
+            return await mystic.edit_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Download Error:** `{e}`")
 
         if file_path and os.path.exists(file_path) and os.path.getsize(file_path) > 0:
             message_link = await Telegram.get_link(message)
@@ -386,7 +386,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
             
             if is_nsfw_content(details.get("title", "")):
                 await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ (Telegram Audio)", details.get("title", ""))
-                return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
             try:
                 if getattr(mystic, "text", None):
@@ -399,14 +399,14 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
             except Exception as e:
                 print(e)
                 try:
-                    return await mystic.edit_text(f"❌ **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ (ᴀᴜᴅɪᴏ):**\n\n`{str(e)}`")
+                    return await mystic.edit_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ (ᴀᴜᴅɪᴏ):**\n\n`{str(e)}`")
                 except MessageIdInvalid:
-                    return await message.reply_text(f"❌ **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ:** `{str(e)}`")
+                    return await message.reply_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ:** `{str(e)}`")
                 except MessageNotModified:
                     return
             return await mystic.delete()
         else:
-            return await mystic.edit_text("❌ **Download Failed:** The file is empty or corrupted.")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Download Failed:** The file is empty or corrupted.")
 
     # ===========================================================
     # 🎥 VIDEO LOCAL PLAY HANDLER (UP TO 4GB)
@@ -421,19 +421,19 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
                 pass
                 
         if video_telegram.file_size > 4294967296: # 4GB Limit
-            return await mystic.edit_text("❌ **File is too large! Maximum allowed limit is 4GB.**")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **File is too large! Maximum allowed limit is 4GB.**")
             
         dl_client = client
         msg_to_dl = message.reply_to_message
         
         if video_telegram.file_size > 20971520: # 20 MB limit switch
             if not userbot:
-                return await mystic.edit_text("❌ **Assistant Required!**\nTo play files larger than 20MB, the assistant account must be active.")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Assistant Required!**\nTo play files larger than 20MB, the assistant account must be active.")
             dl_client = userbot
             try:
                 msg_to_dl = await userbot.get_messages(message.chat.id, message.reply_to_message.id)
             except Exception as e:
-                return await mystic.edit_text(f"❌ **Assistant Access Error:** `{e}`")
+                return await mystic.edit_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Assistant Access Error:** `{e}`")
 
         try:
             start_time = time.time()
@@ -444,7 +444,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
                 progress_args=(mystic, start_time)
             )
         except Exception as e:
-            return await mystic.edit_text(f"❌ **Download Error:** `{e}`")
+            return await mystic.edit_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Download Error:** `{e}`")
 
         if file_path and os.path.exists(file_path) and os.path.getsize(file_path) > 0:
             message_link = await Telegram.get_link(message)
@@ -454,7 +454,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
             
             if is_nsfw_content(details.get("title", "")):
                 await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ (Telegram Video)", details.get("title", ""))
-                return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
             try:
                 if getattr(mystic, "text", None):
@@ -467,29 +467,29 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
             except Exception as e:
                 print(e)
                 try:
-                    return await mystic.edit_text(f"❌ **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ (ᴠɪᴅᴇᴏ):**\n\n`{str(e)}`")
+                    return await mystic.edit_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ (ᴠɪᴅᴇᴏ):**\n\n`{str(e)}`")
                 except MessageIdInvalid:
-                    return await message.reply_text(f"❌ **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ:** `{str(e)}`")
+                    return await message.reply_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ:** `{str(e)}`")
                 except MessageNotModified:
                     return
             return await mystic.delete()
         else:
-            return await mystic.edit_text("❌ **Download Failed!** The file is empty.\n\n_Note: Ensure the Assistant account is a Premium account if downloading files up to 4GB._")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Download Failed!** The file is empty.\n\n_Note: Ensure the Assistant account is a Premium account if downloading files up to 4GB._")
     
     # ===========================================================
     # 🌐 URL HANDLER
     # ===========================================================
     elif url:
         if not url.startswith(("http://", "https://")):
-             return await mystic.edit_text("❌ **sᴇᴄᴜʀɪᴛʏ ᴇʀʀᴏʀ:** ʟᴏᴄᴀʟ ғɪʟᴇs ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʀᴇᴠᴇɴᴛ ᴅᴀᴛᴀ ᴛʜᴇғᴛ.")
+             return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴇʀʀᴏʀ:** ʟᴏᴄᴀʟ ғɪʟᴇs ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʀᴇᴠᴇɴᴛ ᴅᴀᴛᴀ ᴛʜᴇғᴛ.")
 
         if is_malicious_link(url):
             await send_security_log(message, "ᴍᴀʟɪᴄɪᴏᴜs ʜᴀᴄᴋ ʟɪɴᴋ ʙʟᴏᴄᴋᴇᴅ", url)
-            return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴍᴀʟɪᴄɪᴏᴜs ᴄᴏᴍᴍᴀɴᴅ ɪɴᴊᴇᴄᴛɪᴏɴ ʙʟᴏᴄᴋᴇᴅ!**")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴍᴀʟɪᴄɪᴏᴜs ᴄᴏᴍᴍᴀɴᴅ ɪɴᴊᴇᴄᴛɪᴏɴ ʙʟᴏᴄᴋᴇᴅ!**")
 
         if is_nsfw_content(url):
             await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", url)
-            return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
         allowed_domains = [
             "youtube.com", "youtu.be",
@@ -501,7 +501,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
         
         if not any(domain in url for domain in allowed_domains):
              return await mystic.edit_text(
-                 "❌ **ᴜɴsᴜᴘᴘᴏʀᴛᴇᴅ ʟɪɴᴋ!**\n\n"
+                 "<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **ᴜɴsᴜᴘᴘᴏʀᴛᴇᴅ ʟɪɴᴋ!**\n\n"
                  "**ᴀʟʟᴏᴡᴇᴅ sᴏᴜʀᴄᴇs:** ʏᴏᴜᴛᴜʙᴇ, sᴘᴏᴛɪғʏ, sᴏᴜɴᴅᴄʟᴏᴜᴅ, ᴀᴘᴘʟᴇ ᴍᴜsɪᴄ, ʀᴇssᴏ.\n"
                  "**sᴇᴄᴜʀɪᴛʏ:** ᴏᴛʜᴇʀ ʟɪɴᴋs ᴀʀᴇ ʙʟᴏᴄᴋᴇᴅ ᴛᴏ ᴋᴇᴇᴘ ᴛʜᴇ sᴇʀᴠᴇʀ sᴀғᴇ."
              )
@@ -509,7 +509,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
         if "spotify.com" in url:
             spotify = True
             if not config.SPOTIFY_CLIENT_ID and not config.SPOTIFY_CLIENT_SECRET:
-                return await mystic.edit_text("» sᴘᴏᴛɪғʏ ɪs ɴᴏᴛ sᴜᴘᴘᴏʀᴛᴇᴅ ʏᴇᴛ.")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6172312314423808834\">✨</tg-emoji> sᴘᴏᴛɪғʏ ɪs ɴᴏᴛ sᴜᴘᴘᴏʀᴛᴇᴅ ʏᴇᴛ.")
             try:
                 if "track" in url:
                     details, track_id = await Spotify.track(url)
@@ -539,9 +539,9 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
 
                 if is_nsfw_content(details.get("title", "")):
                     await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", details.get("title", ""))
-                    return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                    return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
             except:
-                return await mystic.edit_text("❌ ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ sᴘᴏᴛɪғʏ ᴅᴀᴛᴀ.")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ sᴘᴏᴛɪғʏ ᴅᴀᴛᴀ.")
         
         elif "music.apple.com" in url:
             try:
@@ -558,13 +558,13 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
                     cap = _["play_12"].format(cuser.mention, message.from_user.mention)
                     img = url
                 else:
-                    return await mystic.edit_text("❌ ᴇʀʀᴏʀ: ɪɴᴠᴀʟɪᴅ ᴀᴘᴘʟᴇ ᴍᴜsɪᴄ ʟɪɴᴋ.")
+                    return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> ᴇʀʀᴏʀ: ɪɴᴠᴀʟɪᴅ ᴀᴘᴘʟᴇ ᴍᴜsɪᴄ ʟɪɴᴋ.")
 
                 if is_nsfw_content(details.get("title", "")):
                     await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", details.get("title", ""))
-                    return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                    return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
             except:
-                return await mystic.edit_text("❌ ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ ᴀᴘᴘʟᴇ ᴍᴜsɪᴄ.")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ ᴀᴘᴘʟᴇ ᴍᴜsɪᴄ.")
 
         elif "resso.com" in url:
             try:
@@ -572,13 +572,13 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
                 
                 if is_nsfw_content(details.get("title", "")):
                     await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", details.get("title", ""))
-                    return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                    return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
                 streamtype = "youtube"
                 img = details["thumb"]
                 cap = _["play_10"].format(details["title"], details["duration_min"])
             except:
-                return await mystic.edit_text("❌ ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ ʀᴇssᴏ ᴛʀᴀᴄᴋ.")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ ʀᴇssᴏ ᴛʀᴀᴄᴋ.")
 
         elif "soundcloud.com" in url:
             try:
@@ -586,7 +586,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
                 
                 if is_nsfw_content(details.get("title", "")):
                     await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", details.get("title", ""))
-                    return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                    return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
                 duration_sec = details["duration_sec"]
                 if duration_sec > config.DURATION_LIMIT:
@@ -601,7 +601,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
                 await stream(client, _, mystic, user_id, details, chat_id, user_name, message.chat.id, streamtype="soundcloud", forceplay=fplay, userbot=userbot)
                 return await mystic.delete()
             except:
-                return await mystic.edit_text("❌ ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ sᴏᴜɴᴅᴄʟᴏᴜᴅ.")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ sᴏᴜɴᴅᴄʟᴏᴜᴅ.")
 
         else:
             try:
@@ -619,7 +619,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
                     
                     if is_nsfw_content(details.get("title", "")):
                         await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", details.get("title", ""))
-                        return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                        return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
                     streamtype = "youtube"
                     img = details["thumb"]
@@ -629,7 +629,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
                     
                     if is_nsfw_content(details.get("title", "")):
                         await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", details.get("title", ""))
-                        return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                        return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
                     streamtype = "youtube"
                     img = details["thumb"]
@@ -651,7 +651,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
                          except: pass
                     return await play_logs(message, streamtype="M3u8 or Index Link")
                 except:
-                    return await mystic.edit_text("❌ ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ ᴛʀᴀᴄᴋ.")
+                    return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ ᴛʀᴀᴄᴋ.")
 
     else:
         if len(message.command) < 2:
@@ -664,7 +664,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
             except:
                 C_SUPPORT_CHAT = config.SUPPORT_CHAT
             buttons = InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Support", url=C_SUPPORT_CHAT), InlineKeyboardButton(text="Close", callback_data="close")]]
+                [[InlineKeyboardButton(text="💬 Support", url=C_SUPPORT_CHAT), InlineKeyboardButton(text="❌ Close", callback_data="close")]]
             )
             play_img = get_random_img(config.PLAYLIST_IMG_URL) if hasattr(config, "PLAYLIST_IMG_URL") else "https://telegra.ph/file/2e3d368e77c449c287430.jpg"
             try:
@@ -686,18 +686,18 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
 
         if is_nsfw_content(query):
             await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", query)
-            return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
         
         try:
             details, track_id = await YouTube.track(query)
             
             if is_nsfw_content(details.get("title", "")):
                 await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", details.get("title", ""))
-                return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
             streamtype = "youtube"
         except:
-            return await mystic.edit_text("❌ ᴇʀʀᴏʀ sᴇᴀʀᴄʜɪɴɢ ᴏɴ ʏᴏᴜᴛᴜʙᴇ.")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> ᴇʀʀᴏʀ sᴇᴀʀᴄʜɪɴɢ ᴏɴ ʏᴏᴜᴛᴜʙᴇ.")
 
     if str(playmode) == "Direct":
         if not plist_type:
@@ -853,10 +853,10 @@ async def play_music(client: Client, CallbackQuery, _):
     try:
         details, track_id = await YouTube.track(vidid, True)
     except:
-        return await mystic.edit_text("❌ ᴇʀʀᴏʀ ᴘʀᴏᴄᴇssɪɴɢ ʀᴇǫᴜᴇsᴛ.")
+        return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> ᴇʀʀᴏʀ ᴘʀᴏᴄᴇssɪɴɢ ʀᴇǫᴜᴇsᴛ.")
 
     if is_nsfw_content(details.get("title", "")):
-        return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+        return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
     if details["duration_min"]:
         duration_sec = time_to_seconds(details["duration_min"])
@@ -878,9 +878,9 @@ async def play_music(client: Client, CallbackQuery, _):
     except Exception as e:
         print(e)
         try:
-            return await mystic.edit_text(f"❌ **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ:** `{str(e)}`")
+            return await mystic.edit_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ:** `{str(e)}`")
         except MessageIdInvalid:
-            return await CallbackQuery.message.reply_text(f"❌ **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ:** `{str(e)}`")
+            return await CallbackQuery.message.reply_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ:** `{str(e)}`")
         except MessageNotModified:
             return
     return await mystic.delete()
@@ -964,27 +964,27 @@ async def play_playlists_command(client: Client, CallbackQuery, _):
         try:
             result = await YouTube.playlist(videoid, config.PLAYLIST_FETCH_LIMIT, CallbackQuery.from_user.id, True)
         except:
-            return await mystic.edit_text("❌ ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ ᴘʟᴀʏʟɪsᴛ.")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ ᴘʟᴀʏʟɪsᴛ.")
     if ptype == "spplay":
         try:
             result, spotify_id = await Spotify.playlist(videoid)
         except:
-            return await mystic.edit_text("❌ ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ sᴘᴏᴛɪғʏ ᴘʟᴀʏʟɪsᴛ.")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ sᴘᴏᴛɪғʏ ᴘʟᴀʏʟɪsᴛ.")
     if ptype == "spalbum":
         try:
             result, spotify_id = await Spotify.album(videoid)
         except:
-            return await mystic.edit_text("❌ ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ sᴘᴏᴛɪғʏ ᴀʟʙᴜᴍ.")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ sᴘᴏᴛɪғʏ ᴀʟʙᴜᴍ.")
     if ptype == "spartist":
         try:
             result, spotify_id = await Spotify.artist(videoid)
         except:
-            return await mystic.edit_text("❌ ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ sᴘᴏᴛɪғʏ ᴀʀᴛɪsᴛ.")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ sᴘᴏᴛɪғʏ ᴀʀᴛɪsᴛ.")
     if ptype == "apple":
         try:
             result, apple_id = await Apple.playlist(videoid, True)
         except:
-            return await mystic.edit_text("❌ ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ ᴀᴘᴘʟᴇ ᴘʟᴀʏʟɪsᴛ.")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ ᴀᴘᴘʟᴇ ᴘʟᴀʏʟɪsᴛ.")
             
     try:
         await mystic.edit_text(MSG_STARTING)
@@ -996,9 +996,9 @@ async def play_playlists_command(client: Client, CallbackQuery, _):
     except Exception as e:
         print(e)
         try:
-            return await mystic.edit_text(f"❌ **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ:** `{str(e)}`")
+            return await mystic.edit_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ:** `{str(e)}`")
         except MessageIdInvalid:
-            return await CallbackQuery.message.reply_text(f"❌ **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ:** `{str(e)}`")
+            return await CallbackQuery.message.reply_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ:** `{str(e)}`")
         except MessageNotModified:
             return
     return await mystic.delete()
@@ -1030,7 +1030,7 @@ async def slider_queries(client: Client, CallbackQuery, _):
         if is_nsfw_content(title):
             try: await CallbackQuery.message.delete()
             except: pass
-            return await app.send_message(CallbackQuery.message.chat.id, "**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+            return await app.send_message(CallbackQuery.message.chat.id, "<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
         buttons = slider_markup(_, vidid, user_id, query, query_type, cplay, fplay)
         med = InputMediaPhoto(media=thumbnail, caption=_["play_10"].format(title.title(), duration_min), has_spoiler=True)
@@ -1052,7 +1052,7 @@ async def slider_queries(client: Client, CallbackQuery, _):
         if is_nsfw_content(title):
             try: await CallbackQuery.message.delete()
             except: pass
-            return await app.send_message(CallbackQuery.message.chat.id, "**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+            return await app.send_message(CallbackQuery.message.chat.id, "<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
         buttons = slider_markup(_, vidid, user_id, query, query_type, cplay, fplay)
         med = InputMediaPhoto(media=thumbnail, caption=_["play_10"].format(title.title(), duration_min), has_spoiler=True)
@@ -1156,10 +1156,10 @@ async def stream(client, _, mystic, user_id, result, chat_id, user_name, origina
         try:
             file_path, direct = await YouTube.download(vidid, mystic, videoid=True, video=status)
         except:
-            return await mystic.edit_text("❌ ᴇʀʀᴏʀ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴠɪᴅᴇᴏ.")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> ᴇʀʀᴏʀ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴠɪᴅᴇᴏ.")
         
         if not file_path or str(file_path) == "None":
-            return await mystic.edit_text("❌ **Error:** Download failed (yt-dlp could not extract media).")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Error:** Download failed (yt-dlp could not extract media).")
 
         if await is_active_chat(chat_id):
             await put_queue(chat_id, original_chat_id, file_path if direct else f"vid_{vidid}", title, duration_min, user_name, vidid, user_id, "video" if video else "audio")
@@ -1209,7 +1209,7 @@ async def stream(client, _, mystic, user_id, result, chat_id, user_name, origina
             await put_queue(chat_id, original_chat_id, file_path, title, duration_min, user_name, streamtype, user_id, "audio", forceplay=forceplay)
             db[chat_id][-1]["client"] = client
             
-            button = stream_markup2(_, chat_id, bot_username)
+            button = stream_markup2(_, chat_id)
             sc_img = config.SOUNCLOUD_IMG_URL
             run = await client.send_photo(original_chat_id, photo=sc_img, caption=_["stream_1"].format(C_SUPPORT_CHAT, title[:23], duration_min, user_name), reply_markup=InlineKeyboardMarkup(button), has_spoiler=True)
             db[chat_id][0]["mystic"] = run
@@ -1235,7 +1235,7 @@ async def stream(client, _, mystic, user_id, result, chat_id, user_name, origina
             db[chat_id][-1]["client"] = client
             if video: await add_active_video_chat(chat_id)
             
-            button = stream_markup2(_, chat_id, bot_username)
+            button = stream_markup2(_, chat_id)
             tg_img = config.TELEGRAM_VIDEO_URL if video else config.TELEGRAM_AUDIO_URL
             run = await client.send_photo(original_chat_id, photo=tg_img, caption=_["stream_1"].format(link, title[:23], duration_min, user_name), reply_markup=InlineKeyboardMarkup(button), has_spoiler=True)
             db[chat_id][0]["mystic"] = run
@@ -1267,7 +1267,7 @@ async def stream(client, _, mystic, user_id, result, chat_id, user_name, origina
             db[chat_id][-1]["client"] = client
             img = await get_thumb(vidid, user_id, client)
             
-            button = stream_markup2(_, chat_id, bot_username)
+            button = stream_markup2(_, chat_id)
             run = await client.send_photo(original_chat_id, photo=img, caption=_["stream_1"].format(f"https://t.me/{bot_username}?start=info_{vidid}", title[:23], duration_min, user_name), reply_markup=InlineKeyboardMarkup(button), has_spoiler=True)
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
@@ -1279,7 +1279,7 @@ async def stream(client, _, mystic, user_id, result, chat_id, user_name, origina
         if await is_active_chat(chat_id):
             await put_queue_index(chat_id, original_chat_id, "index_url", title, duration_min, user_name, link, "video" if video else "audio")
             db[chat_id][-1]["client"] = client
-            await mystic.edit_text("**Added to Queue.**")
+            await mystic.edit_text("<tg-emoji emoji-id=\"6280269890821558384\">✅</tg-emoji> **Added to Queue.**")
         else:
             if not forceplay:
                 db[chat_id] = []
@@ -1287,7 +1287,7 @@ async def stream(client, _, mystic, user_id, result, chat_id, user_name, origina
             await put_queue_index(chat_id, original_chat_id, "index_url", title, duration_min, user_name, link, "video" if video else "audio", forceplay=forceplay)
             db[chat_id][-1]["client"] = client
             
-            button = stream_markup2(_, chat_id, bot_username)
+            button = stream_markup2(_, chat_id)
             stream_img = config.STREAM_IMG_URL
             run = await client.send_photo(original_chat_id, photo=stream_img, caption=_["stream_2"].format(user_name), reply_markup=InlineKeyboardMarkup(button), has_spoiler=True)
             db[chat_id][0]["mystic"] = run
