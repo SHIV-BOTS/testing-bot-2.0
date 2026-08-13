@@ -7,7 +7,7 @@ from pyrogram.errors import WebpageMediaEmpty
 from pyrogram.enums import ButtonStyle 
 
 from PritiMusic import YouTube, app
-from PritiMusic.core.call import Lucky
+# ❌ Yahan se 'Lucky' ka import hata diya gaya hai taaki Circular Import Error na aaye
 from PritiMusic.misc import SUDOERS, db
 from PritiMusic.utils.database import (
     get_active_chats, get_lang, get_upvote_count, is_active_chat,
@@ -51,7 +51,6 @@ def create_btn(text, cb=None, url=None, style=ButtonStyle.PRIMARY, emoji_id=None
     if cb: kwargs["callback_data"] = cb
     if url: kwargs["url"] = url
     
-    # Premium Emoji Logic
     if emoji_id:
         kwargs["icon_custom_emoji_id"] = int(emoji_id)
     elif not no_emoji:
@@ -173,6 +172,9 @@ async def unban_assistant(_, callback: CallbackQuery):
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
 @languageCB
 async def del_back_playlist(client, CallbackQuery, _):
+    # ✅ LOCAL IMPORT: Yahan import karne se circular import error completely fix ho jayega
+    from PritiMusic.core.call import Lucky 
+
     callback_data = CallbackQuery.data.strip()
     callback_request = callback_data.split(None, 1)[1]
     command, chat = callback_request.split("|")
