@@ -30,12 +30,12 @@ cloneownerdb = mongodb.cloneownerdb
 # Initialize logging
 LOG = logging.getLogger(__name__)
 
-# 🔥 PREMIUM EMOJIS LIST 🔥
+# 💎 Premium Emojis List for Buttons (icon_custom_emoji_id)
 PREMIUM_EMOJIS = [
-    "5422831825178206894", 
-    "5368324170673489600",
-    "5206607081334906820",
-    "5206380668048496464"
+    "5258362837411045098", "6102938383456146362", "5463274047771000031", "6100397162976252509",
+    "5373310679241466020", "5408916593780470262", "5776182936638329359", "5258389041006518073",
+    "6280269890821558384", "5936143551854285132", "6172332822892647766", "5891211339170326418",
+    "5409368076447657845", "6172312314423808834", "6082387600599944892", "6271537028307881531"
 ]
 
 # 🎨 Dynamic Color Generator (Random Styles)
@@ -51,7 +51,7 @@ def create_btn(text, cb=None, url=None, user_id=None, style=ButtonStyle.PRIMARY,
     if cb: kwargs["callback_data"] = cb
     if url: kwargs["url"] = url
     if user_id: kwargs["user_id"] = user_id
-    if not no_emoji: kwargs["icon_custom_emoji_id"] = random.choice(PREMIUM_EMOJIS)
+    if not no_emoji: kwargs["icon_custom_emoji_id"] = int(random.choice(PREMIUM_EMOJIS))
     return InlineKeyboardButton(**kwargs)
 
 # =====================================================================
@@ -251,7 +251,12 @@ async def start_pm(client, message: Message, _):
         except:
              pass
     else:
-        anim_frames = ["<b>ʟᴏᴀᴅɪɴɢ</b>", "<b>ʟᴏᴀᴅɪɴɢ.</b>", "<b>ʟᴏᴀᴅɪɴɢ..</b>", "<b>ʟᴏᴀᴅɪɴɢ...</b>"]
+        anim_frames = [
+            "<b><tg-emoji emoji-id='5891211339170326418'>⌛️</tg-emoji> ʟᴏᴀᴅɪɴɢ</b>", 
+            "<b><tg-emoji emoji-id='5891211339170326418'>⌛️</tg-emoji> ʟᴏᴀᴅɪɴɢ.</b>", 
+            "<b><tg-emoji emoji-id='5373310679241466020'>🌀</tg-emoji> ʟᴏᴀᴅɪɴɢ..</b>", 
+            "<b><tg-emoji emoji-id='5373310679241466020'>🌀</tg-emoji> ʟᴏᴀᴅɪɴɢ...</b>"
+        ]
         try:
             loading = await message.reply_text(anim_frames[0])
             for frame in anim_frames[1:]:
@@ -335,7 +340,7 @@ async def start_pm(client, message: Message, _):
         if arg.startswith("sud"):
             return await sudoers_list(client=client, message=message, _=_)
         if arg.startswith("inf"):
-            m = await message.reply_text("🔎")
+            m = await message.reply_text("<tg-emoji emoji-id='5429571366384842791'>🔎</tg-emoji>")
             q = arg.replace("info_", "", 1)
             try:
                 results = await VideosSearch(f"https://www.youtube.com/watch?v={q}", limit=1).next()
@@ -353,7 +358,7 @@ async def start_pm(client, message: Message, _):
                 return await message.reply_photo(photo=thumbnail, caption=caption, reply_markup=key, has_spoiler=True)
             except Exception as e:
                 LOG.error(e)
-                return await m.edit_text("❌ Error fetching info.")
+                return await m.edit_text("<tg-emoji emoji-id='6271611232457855630'>❌</tg-emoji> Error fetching info.")
 
     # Custom Button Data Logic
     custom_button_data = None
@@ -392,15 +397,14 @@ async def start_pm(client, message: Message, _):
             caption = custom_caption
     else:
         formatted_text = (
-            f"Hey {user_mention} 👋\n\n"
-            f"⦿ THIS IS {bot_mention} !\n\n"
-            f"➻ A FAST & POWERFUL TELEGRAM MUSIC PLAYER BOT.\n\n"
+            f"Hey {user_mention} <tg-emoji emoji-id='5246815495713207687'>👋</tg-emoji>\n\n"
+            f"<tg-emoji emoji-id='6172312314423808834'>✨</tg-emoji> THIS IS {bot_mention} !\n\n"
+            f"<tg-emoji emoji-id='6082387600599944892'>🎧</tg-emoji> A FAST & POWERFUL TELEGRAM MUSIC PLAYER BOT.\n\n"
             f"──────────────────\n"
-            f"✦ POWERED BY » {bot_mention}"
+            f"<tg-emoji emoji-id='6271537028307881531'>💎</tg-emoji> POWERED BY » {bot_mention}"
         )
         caption = f"<blockquote expandable>{formatted_text}</blockquote>"
 
-    # 🔥 FIX: Removed message_effect_id entirely to prevent Pyrogram TypeError
     if start_video:
         try:
             return await message.reply_video(start_video, caption=caption, reply_markup=markup, has_spoiler=True, parse_mode=ParseMode.HTML)
@@ -524,7 +528,13 @@ async def home_back_handler(client, CallbackQuery, _):
         except:
             caption = custom_caption
     else:
-        formatted_text = (f"Hey {user_mention} 👋\n\n⦿ THIS IS {bot_mention} !\n\n➻ A FAST & POWERFUL TELEGRAM MUSIC PLAYER BOT.\n\n──────────────────\n✦ POWERED BY » {bot_mention}")
+        formatted_text = (
+            f"Hey {user_mention} <tg-emoji emoji-id='5246815495713207687'>👋</tg-emoji>\n\n"
+            f"<tg-emoji emoji-id='6172312314423808834'>✨</tg-emoji> THIS IS {bot_mention} !\n\n"
+            f"<tg-emoji emoji-id='6082387600599944892'>🎧</tg-emoji> A FAST & POWERFUL TELEGRAM MUSIC PLAYER BOT.\n\n"
+            f"──────────────────\n"
+            f"<tg-emoji emoji-id='6271537028307881531'>💎</tg-emoji> POWERED BY » {bot_mention}"
+        )
         caption = f"<blockquote expandable>{formatted_text}</blockquote>"
 
     try:
@@ -538,7 +548,6 @@ async def home_back_handler(client, CallbackQuery, _):
             await CallbackQuery.message.delete()
         except:
             pass
-        # 🔥 FIX: Removed message_effect_id entirely here as well
         if start_video:
             await CallbackQuery.message.reply_video(start_video, caption=caption, reply_markup=markup, has_spoiler=True, parse_mode=ParseMode.HTML)
         else:
@@ -556,7 +565,7 @@ async def transfer_owner(client, message):
 
     current_owner_id = await get_owner_id_from_db(bot_id)
     if user.id not in [OWNER_ID, current_owner_id]:
-        return await message.reply_text("❌ **Access Denied:** Only the Bot Owner can transfer ownership.")
+        return await message.reply_text("<tg-emoji emoji-id='6271611232457855630'>❌</tg-emoji> **Access Denied:** Only the Bot Owner can transfer ownership.")
 
     new_owner = None
     if message.reply_to_message:
@@ -565,25 +574,25 @@ async def transfer_owner(client, message):
         try:
             new_owner = await client.get_users(message.command[1])
         except:
-            return await message.reply_text("❌ User not found! Check Username or ID.")
+            return await message.reply_text("<tg-emoji emoji-id='6271611232457855630'>❌</tg-emoji> User not found! Check Username or ID.")
     else:
-        return await message.reply_text("❌ **Usage:**\nReply to a user or type `/transfer @username`.")
+        return await message.reply_text("<tg-emoji emoji-id='5767288287001580715'>💡</tg-emoji> **Usage:**\nReply to a user or type `/transfer @username`.")
 
     if new_owner.is_bot:
-        return await message.reply_text("❌ You cannot make a bot the owner.")
+        return await message.reply_text("<tg-emoji emoji-id='6271611232457855630'>❌</tg-emoji> You cannot make a bot the owner.")
     if new_owner.id == user.id:
-        return await message.reply_text("❌ You are already the owner.")
+        return await message.reply_text("<tg-emoji emoji-id='6102938383456146362'>⚠️</tg-emoji> You are already the owner.")
 
     await clonebotdb.update_one({"bot_id": bot_id}, {"$set": {"user_id": new_owner.id}})
     await cloneownerdb.update_one({"bot_id": bot_id}, {"$set": {"user_id": new_owner.id}}, upsert=True)
 
-    await message.reply_text(f"✅ **Ownership Transferred!**\n👑 New Owner: {new_owner.mention}")
+    await message.reply_text(f"<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> **Ownership Transferred!**\n<tg-emoji emoji-id='6237864166879663987'>👑</tg-emoji> New Owner: {new_owner.mention}")
 
 @Client.on_message(filters.command("viewstartsettings") & ~BANNED_USERS)
 async def view_start_settings(client, message):
     bot_id = (await client.get_me()).id
     pos = await get_start_btn_pos(bot_id)
-    await message.reply_text(f"⚙️ **Settings Viewed**\nButton Position: `{pos}`")
+    await message.reply_text(f"<tg-emoji emoji-id='5350396951407895212'>⚙️</tg-emoji> **Settings Viewed**\nButton Position: `{pos}`")
 
 @Client.on_message(filters.command("resetstartsetting") & ~BANNED_USERS)
 async def reset_start_settings(client, message):
@@ -593,7 +602,7 @@ async def reset_start_settings(client, message):
         "start_animation": "", "start_caption": "", "start_button": "", 
         "start_btn_pos": "", "start_reaction": "", "start_effect": ""
     }})
-    await message.reply_text("🔄 All Start Settings Reset!")
+    await message.reply_text("<tg-emoji emoji-id='5373310679241466020'>🔄</tg-emoji> All Start Settings Reset!")
 
 # =====================================================================
 # START REACTION & EFFECT SETTERS
@@ -603,23 +612,23 @@ async def reset_start_settings(client, message):
 async def set_start_reaction_cmd(client, message):
     bot_id = (await client.get_me()).id
     if len(message.command) < 2:
-        return await message.reply_text("❌ **Usage:** `/setstartreaction 🔥`\nYou can add multiple.")
+        return await message.reply_text("<tg-emoji emoji-id='5767288287001580715'>💡</tg-emoji> **Usage:** `/setstartreaction 🔥`\nYou can add multiple.")
     
     emoji = message.command[1]
     await add_start_content(bot_id, "start_reaction", emoji)
-    await message.reply_text(f"✅ Start Reaction Added: {emoji}")
+    await message.reply_text(f"<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Start Reaction Added: {emoji}")
 
 @Client.on_message(filters.command(["delstartreaction", "resetstartreaction"]) & ~BANNED_USERS)
 async def del_start_reaction_cmd(client, message):
     bot_id = (await client.get_me()).id
     await clonebotdb.update_one({"bot_id": bot_id}, {"$unset": {"start_reaction": ""}})
-    await message.reply_text("✅ Start Reaction Deleted (Default Random will be used)!")
+    await message.reply_text("<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Start Reaction Deleted (Default Random will be used)!")
 
 @Client.on_message(filters.command(["setstarteffect", "addstarteffect"]) & ~BANNED_USERS)
 async def set_start_effect_cmd(client, message):
     bot_id = (await client.get_me()).id
     if len(message.command) < 2:
-        return await message.reply_text("❌ **Usage:** `/setstarteffect 🔥` or ID\n\nSupported: 🔥, 👍, 👎, ❤️, 🎉, 💩")
+        return await message.reply_text("<tg-emoji emoji-id='5767288287001580715'>💡</tg-emoji> **Usage:** `/setstarteffect 🔥` or ID\n\nSupported: 🔥, 👍, 👎, ❤️, 🎉, 💩")
     
     EFFECT_MAP = {
         "🔥": "5104841245755180586",
@@ -635,13 +644,13 @@ async def set_start_effect_cmd(client, message):
     
     # ✅ Using add_start_content to allow Multiple Effects
     await add_start_content(bot_id, "start_effect", effect_id)
-    await message.reply_text(f"✅ Start Effect Added!")
+    await message.reply_text("<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Start Effect Added!")
 
 @Client.on_message(filters.command(["delstarteffect", "resetstarteffect"]) & ~BANNED_USERS)
 async def del_start_effect_cmd(client, message):
     bot_id = (await client.get_me()).id
     await clonebotdb.update_one({"bot_id": bot_id}, {"$unset": {"start_effect": ""}})
-    await message.reply_text("✅ Start Effect Deleted (Default Random will be used)!")
+    await message.reply_text("<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Start Effect Deleted (Default Random will be used)!")
 
 # =====================================================================
 # MEDIA SETTERS (Supports Adding Multiple)
@@ -652,60 +661,60 @@ async def set_start_image_cmd(client, message):
     bot_id = (await client.get_me()).id
     if message.reply_to_message and message.reply_to_message.photo:
         await add_start_content(bot_id, "start_image", message.reply_to_message.photo.file_id)
-        await message.reply_text("✅ Start Image Added to Random List!")
+        await message.reply_text("<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Start Image Added to Random List!")
     else:
-        await message.reply_text("Reply to a photo.")
+        await message.reply_text("<tg-emoji emoji-id='5767288287001580715'>💡</tg-emoji> Reply to a photo.")
 
 @Client.on_message(filters.command(["delstartimg", "resetstartimg"]) & ~BANNED_USERS)
 async def del_start_image_cmd(client, message):
     bot_id = (await client.get_me()).id
     await clonebotdb.update_one({"bot_id": bot_id}, {"$unset": {"start_image": ""}})
-    await message.reply_text("✅ Start Images Deleted!")
+    await message.reply_text("<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Start Images Deleted!")
 
 @Client.on_message(filters.command(["setstartvideo", "addstartvideo"]) & ~BANNED_USERS)
 async def set_start_video_cmd(client, message):
     bot_id = (await client.get_me()).id
     if message.reply_to_message and message.reply_to_message.video:
         await add_start_content(bot_id, "start_video", message.reply_to_message.video.file_id)
-        await message.reply_text("✅ Start Video Added to Random List!")
+        await message.reply_text("<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Start Video Added to Random List!")
     else:
-        await message.reply_text("Reply to a video.")
+        await message.reply_text("<tg-emoji emoji-id='5767288287001580715'>💡</tg-emoji> Reply to a video.")
 
 @Client.on_message(filters.command(["delstartvideo", "resetstartvideo"]) & ~BANNED_USERS)
 async def del_start_video_cmd(client, message):
     bot_id = (await client.get_me()).id
     await clonebotdb.update_one({"bot_id": bot_id}, {"$unset": {"start_video": ""}})
-    await message.reply_text("✅ Start Videos Deleted!")
+    await message.reply_text("<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Start Videos Deleted!")
 
 @Client.on_message(filters.command(["setstartsticker", "addstartsticker"]) & ~BANNED_USERS)
 async def set_start_sticker_cmd(client, message):
     bot_id = (await client.get_me()).id
     if message.reply_to_message and message.reply_to_message.sticker:
         await add_start_content(bot_id, "start_sticker", message.reply_to_message.sticker.file_id)
-        await message.reply_text("✅ Sticker Added to Random List!")
+        await message.reply_text("<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Sticker Added to Random List!")
     else:
-        await message.reply_text("Reply to a sticker.")
+        await message.reply_text("<tg-emoji emoji-id='5767288287001580715'>💡</tg-emoji> Reply to a sticker.")
 
 @Client.on_message(filters.command(["delstartsticker", "resetstartsticker"]) & ~BANNED_USERS)
 async def del_start_sticker_cmd(client, message):
     bot_id = (await client.get_me()).id
     await clonebotdb.update_one({"bot_id": bot_id}, {"$unset": {"start_sticker": ""}})
-    await message.reply_text("✅ Stickers Deleted!")
+    await message.reply_text("<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Stickers Deleted!")
 
 @Client.on_message(filters.command(["setstartanimation", "addstartanimation"]) & ~BANNED_USERS)
 async def set_start_animation_cmd(client, message):
     bot_id = (await client.get_me()).id
     if message.reply_to_message and message.reply_to_message.animation:
         await add_start_content(bot_id, "start_animation", message.reply_to_message.animation.file_id)
-        await message.reply_text("✅ Animation Added to Random List!")
+        await message.reply_text("<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Animation Added to Random List!")
     else:
-        await message.reply_text("Reply to a GIF.")
+        await message.reply_text("<tg-emoji emoji-id='5767288287001580715'>💡</tg-emoji> Reply to a GIF.")
 
 @Client.on_message(filters.command(["delstartanimation", "resetstartanimation"]) & ~BANNED_USERS)
 async def del_start_animation_cmd(client, message):
     bot_id = (await client.get_me()).id
     await clonebotdb.update_one({"bot_id": bot_id}, {"$unset": {"start_animation": ""}})
-    await message.reply_text("✅ Animations Deleted!")
+    await message.reply_text("<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Animations Deleted!")
 
 # =====================================================================
 # CAPTION & BUTTON (Multi/Random Supported)
@@ -717,15 +726,15 @@ async def set_start_caption_cmd(client, message):
     if message.reply_to_message:
         text = message.reply_to_message.text.html if message.reply_to_message.text else message.reply_to_message.caption.html
         await add_start_content(bot_id, "start_caption", text)
-        await message.reply_text("✅ Caption Added to Random List!")
+        await message.reply_text("<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Caption Added to Random List!")
     else:
-        await message.reply_text("Reply to a text to add as Caption.")
+        await message.reply_text("<tg-emoji emoji-id='5767288287001580715'>💡</tg-emoji> Reply to a text to add as Caption.")
 
 @Client.on_message(filters.command(["delstartcaption", "resetstartcaption"]) & ~BANNED_USERS)
 async def del_start_caption_cmd(client, message):
     bot_id = (await client.get_me()).id
     await clonebotdb.update_one({"bot_id": bot_id}, {"$unset": {"start_caption": ""}})
-    await message.reply_text("✅ Captions Deleted!")
+    await message.reply_text("<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Captions Deleted!")
 
 @Client.on_message(filters.command(["setstartbutton", "addstartbutton"]) & ~BANNED_USERS)
 async def set_start_button_cmd(client, message):
@@ -733,25 +742,25 @@ async def set_start_button_cmd(client, message):
     data = message.text.split(None, 1)[1] if len(message.command) > 1 else None
     
     if not data or "-" not in data: 
-        return await message.reply_text("Format: `/addstartbutton Text - URL`")
+        return await message.reply_text("<tg-emoji emoji-id='5767288287001580715'>💡</tg-emoji> Format: `/addstartbutton Text - URL`")
     
     txt, url = data.split("-", 1)
     btn_str = f"{txt.strip()} - {url.strip()}"
     
     await add_start_content(bot_id, "start_button", btn_str)
-    await message.reply_text("✅ Button Added to Random List!")
+    await message.reply_text("<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Button Added to Random List!")
 
 @Client.on_message(filters.command(["delstartbutton", "resetstartbutton"]) & ~BANNED_USERS)
 async def del_start_button_cmd(client, message):
     bot_id = (await client.get_me()).id
     await clonebotdb.update_one({"bot_id": bot_id}, {"$unset": {"start_button": ""}})
-    await message.reply_text("✅ Custom Buttons Deleted!")
+    await message.reply_text("<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Custom Buttons Deleted!")
 
 @Client.on_message(filters.command("setbtnpos") & ~BANNED_USERS)
 async def set_btn_pos_cmd(client, message):
     bot_id = (await client.get_me()).id
     if len(message.command) < 2:
-        return await message.reply_text("Usage: `/setbtnpos [UP/DOWN/MID]`")
+        return await message.reply_text("<tg-emoji emoji-id='5767288287001580715'>💡</tg-emoji> Usage: `/setbtnpos [UP/DOWN/MID]`")
     
     raw_pos = message.command[1].upper()
     valid_pos = ["UP", "TOP", "DOWN", "BOTTOM", "MID", "MIDDLE", "LEFT", "RIGHT"]
@@ -762,6 +771,6 @@ async def set_btn_pos_cmd(client, message):
         if raw_pos == "MIDDLE": raw_pos = "MID"
         
         await clonebotdb.update_one({"bot_id": bot_id}, {"$set": {"start_btn_pos": raw_pos}}, upsert=True)
-        await message.reply_text(f"✅ Button Position: **{raw_pos}**")
+        await message.reply_text(f"<tg-emoji emoji-id='6280269890821558384'>✅</tg-emoji> Button Position: **{raw_pos}**")
     else:
-        await message.reply_text("❌ Invalid! Use: UP, DOWN, MID")
+        await message.reply_text("<tg-emoji emoji-id='6271611232457855630'>❌</tg-emoji> Invalid! Use: UP, DOWN, MID")
