@@ -31,10 +31,33 @@ from PritiMusic.utils.inline.start import private_panel
 checker = {}
 upvoters = {}
 
+# 💎 Premium Emojis ID List
+PREMIUM_EMOJIS = [
+    5258362837411045098, 6102938383456146362, 5463274047771000031, 6100397162976252509,
+    5373310679241466020, 5408916593780470262, 5776182936638329359, 5258389041006518073,
+    6280269890821558384, 5936143551854285132, 6172332822892647766, 5891211339170326418,
+    5409368076447657845, 6172312314423808834, 6082387600599944892, 6271537028307881531
+]
+
+# 🎨 Dynamic Color Generator
 def get_style_map():
     styles = [ButtonStyle.PRIMARY, ButtonStyle.SUCCESS, ButtonStyle.DANGER]
     random.shuffle(styles)
     return {1: styles[0], 2: styles[1], 3: styles[2], 4: styles[0]}
+
+# 🔘 Smart Button Creator
+def create_btn(text, cb=None, url=None, style=ButtonStyle.PRIMARY, emoji_id=None, no_emoji=False):
+    kwargs = {"text": text, "style": style}
+    if cb: kwargs["callback_data"] = cb
+    if url: kwargs["url"] = url
+    
+    # Premium Emoji Logic
+    if emoji_id:
+        kwargs["icon_custom_emoji_id"] = int(emoji_id)
+    elif not no_emoji:
+        kwargs["icon_custom_emoji_id"] = int(random.choice(PREMIUM_EMOJIS))
+        
+    return InlineKeyboardButton(**kwargs)
 
 @app.on_callback_query(filters.regex("settingsback_helper") & ~BANNED_USERS)
 @languageCB
@@ -63,7 +86,7 @@ async def clone_page_cb(client, CallbackQuery, _):
     await CallbackQuery.answer()
     style_map = get_style_map()
     clone_text = (
-        "<b>ϻᴧᴋє ʏσυʀ σᴡη ϻυsɪᴄ ʙσᴛ ᴡᴧᴛᴄʜɪηɢ ᴛʜє ᴠɪᴅєσ ᴄᴧʀєғυʟʟʏ.</b>\n\n"
+        "<b><tg-emoji emoji-id=\"6172312314423808834\">✨</tg-emoji> ϻᴧᴋє ʏσυʀ σᴡη ϻυsɪᴄ ʙσᴛ ᴡᴧᴛᴄʜɪηɢ ᴛʜє ᴠɪᴅєσ ᴄᴧʀєғυʟʟʏ.</b>\n\n"
         "<blockquote><b><u>ᴄʟσηє ᴄσϻϻᴧηᴅs :</u></b>\n\n"
         "<b><u>ᴧʟʟ υsєʀs :</u></b>\n"
         "/clone – <b>ᴄʟσηє ʏσυʀ σᴡη ʙσᴛ υsɪηɢ ʙσᴛ ᴛσᴋєη ғʀσϻ @BotFather.</b>\n"
@@ -78,7 +101,7 @@ async def clone_page_cb(client, CallbackQuery, _):
         ),
         reply_markup=InlineKeyboardMarkup(
             [
-                [InlineKeyboardButton(text="✨ ʙᴧᴄᴋ ✨", callback_data="settingsback_helper", style=style_map[1])]
+                [create_btn(text="ʙᴧᴄᴋ", cb="settingsback_helper", style=style_map[1], emoji_id=5352759161945867747)]
             ]
         )
     )
@@ -96,14 +119,14 @@ async def support_page_cb(client, CallbackQuery, _):
 
     custom_support_buttons = [
         [
-            InlineKeyboardButton(text="📢 υᴘᴅᴧᴛєs", url="https://t.me/betabot_hub", style=style_map[1]),
-            InlineKeyboardButton(text="💬 sυᴘᴘσʀᴛ", url="https://t.me/betabot_support", style=style_map[2])
+            create_btn(text="υᴘᴅᴧᴛєs", url="https://t.me/betabot_hub", style=style_map[1], emoji_id=6039381989985882045),
+            create_btn(text="sυᴘᴘσʀᴛ", url="https://t.me/betabot_support", style=style_map[2], emoji_id=6021618194228187816)
         ],
         [
-            InlineKeyboardButton(text="🤖 ʙσᴛs", url="https://t.me/betabot_hub/6701", style=style_map[3])
+            create_btn(text="ʙσᴛs", url="https://t.me/betabot_hub/6701", style=style_map[3], emoji_id=5355051922862653659)
         ],
         [
-            InlineKeyboardButton(text="✨ ʙᴧᴄᴋ ✨", callback_data="settingsback_helper", style=style_map[4])
+            create_btn(text="ʙᴧᴄᴋ", cb="settingsback_helper", style=style_map[4], emoji_id=5352759161945867747)
         ]
     ]
 
@@ -128,8 +151,8 @@ async def gib_repo_callback(_, callback_query):
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(text="✨ ʙᴧᴄᴋ ✨", callback_data="settingsback_helper", style=style_map[1]),
-                        InlineKeyboardButton(text="❌ ᴄʟσsє ❌", callback_data="close", style=style_map[2])
+                        create_btn(text="ʙᴧᴄᴋ", cb="settingsback_helper", style=style_map[1], emoji_id=5352759161945867747),
+                        create_btn(text="ᴄʟσsє", cb="close", style=style_map[2], emoji_id=6271611232457855630)
                     ]
                 ]
             ),
@@ -204,7 +227,9 @@ async def del_back_playlist(client, CallbackQuery, _):
             else:
                 await CallbackQuery.answer(_["admin_39"], show_alert=True)
 
-            upl = InlineKeyboardMarkup([[InlineKeyboardButton(text=f"🔥 {get_upvotes}", callback_data=f"ADMIN  UpVote|{chat_id}_{counter}", style=style_map[1])]])
+            upl = InlineKeyboardMarkup([
+                [create_btn(text=f"{get_upvotes}", cb=f"ADMIN  UpVote|{chat_id}_{counter}", style=style_map[1], emoji_id=6041720006973067267)]
+            ])
             await CallbackQuery.answer(_["admin_40"], show_alert=True)
             return await CallbackQuery.edit_message_reply_markup(reply_markup=upl)
     else:
@@ -255,7 +280,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             return await CallbackQuery.answer("ǫυєυє ɪs єϻᴘᴛʏ σʀ ᴛʜє ᴘʟᴧʏʟɪsᴛ ʜᴧs ʙєєη ᴄʟєᴧʀєᴅ!", show_alert=True)
 
         if command == "Skip":
-            txt = f"<blockquote><b><tg-emoji emoji-id=\"5850346984501680054\">▶️</tg-emoji> ➻ sᴛʀєᴧϻ sᴋɪᴘᴘєᴅ 🎄</b>\n│ \n└<b>ʙʏ :</b> {mention} <tg-emoji emoji-id=\"6172273586703700991\">🥀</tg-emoji></blockquote>"
+            txt = f"<blockquote><b><tg-emoji emoji-id=\"5850346984501680054\">▶️</tg-emoji> ➻ sᴛʀєᴧϻ sᴋɪᴘᴘєᴅ <tg-emoji emoji-id=\"6172273586703700991\">🥀</tg-emoji></b>\n│ \n└<b>ʙʏ :</b> {mention}</blockquote>"
             try:
                 popped = check.pop(0)
                 if popped: await auto_clean(popped)
@@ -266,7 +291,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             except:
                 return await Lucky.stop_stream(chat_id)
         else:
-            txt = f"<blockquote><b><tg-emoji emoji-id=\"5960671702059848143\">⬅️</tg-emoji> ➻ sᴛʀєᴧϻ ʀє-ᴘʟᴧʏєᴅ 🎄</b>\n│ \n└<b>ʙʏ :</b> {mention} <tg-emoji emoji-id=\"6172273586703700991\">🥀</tg-emoji></blockquote>"
+            txt = f"<blockquote><b><tg-emoji emoji-id=\"5960671702059848143\">⬅️</tg-emoji> ➻ sᴛʀєᴧϻ ʀє-ᴘʟᴧʏєᴅ <tg-emoji emoji-id=\"6172273586703700991\">🥀</tg-emoji></b>\n│ \n└<b>ʙʏ :</b> {mention}</blockquote>"
 
         await CallbackQuery.answer()
         queued = check[0]["file"]
