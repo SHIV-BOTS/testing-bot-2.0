@@ -4,7 +4,7 @@ import math
 from pyrogram.types import CallbackQuery, InputMediaPhoto, InputMediaVideo, InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram import filters
 from pyrogram.errors import WebpageMediaEmpty
-from pyrogram.enums import ButtonStyle 
+from pyrogram.enums import ButtonStyle
 
 from PritiMusic import YouTube, app
 from PritiMusic.core.call import Lucky
