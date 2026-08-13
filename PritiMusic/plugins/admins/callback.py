@@ -78,7 +78,7 @@ async def clone_page_cb(client, CallbackQuery, _):
         ),
         reply_markup=InlineKeyboardMarkup(
             [
-                [InlineKeyboardButton(text="⌯ ʙᴧᴄᴋ ⌯", callback_data="settingsback_helper", style=style_map[1])]
+                [InlineKeyboardButton(text="✨ ʙᴧᴄᴋ ✨", callback_data="settingsback_helper", style=style_map[1])]
             ]
         )
     )
@@ -100,10 +100,10 @@ async def support_page_cb(client, CallbackQuery, _):
             InlineKeyboardButton(text="💬 sυᴘᴘσʀᴛ", url="https://t.me/betabot_support", style=style_map[2])
         ],
         [
-            InlineKeyboardButton(text="❤️ ʙσᴛs", url="https://t.me/betabot_hub/6701", style=style_map[3])
+            InlineKeyboardButton(text="🤖 ʙσᴛs", url="https://t.me/betabot_hub/6701", style=style_map[3])
         ],
         [
-            InlineKeyboardButton(text="⌯ ʙᴧᴄᴋ ⌯", callback_data="settingsback_helper", style=style_map[4])
+            InlineKeyboardButton(text="✨ ʙᴧᴄᴋ ✨", callback_data="settingsback_helper", style=style_map[4])
         ]
     ]
 
@@ -128,8 +128,8 @@ async def gib_repo_callback(_, callback_query):
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(text="• ʙᴧᴄᴋ •", callback_data="settingsback_helper", style=style_map[1]),
-                        InlineKeyboardButton(text="• ᴄʟσsє •", callback_data="close", style=style_map[2])
+                        InlineKeyboardButton(text="✨ ʙᴧᴄᴋ ✨", callback_data="settingsback_helper", style=style_map[1]),
+                        InlineKeyboardButton(text="❌ ᴄʟσsє ❌", callback_data="close", style=style_map[2])
                     ]
                 ]
             ),
@@ -143,10 +143,9 @@ async def unban_assistant(_, callback: CallbackQuery):
     userbot = await get_assistant(chat_id)
     try:
         await app.unban_chat_member(chat_id, userbot.id)
-        # Alerts don't support HTML/Markdown emojis, so leaving this normal
-        await callback.answer("ᴧssɪsᴛᴧηᴛ υηʙᴧηηєᴅ sυᴄᴄєssғυʟʟʏ!", show_alert=True)
+        await callback.answer("✅ ᴧssɪsᴛᴧηᴛ υηʙᴧηηєᴅ sυᴄᴄєssғυʟʟʏ!", show_alert=True)
     except Exception:
-        await callback.answer("ғᴧɪʟєᴅ ᴛσ υηʙᴧη. ɢɪᴠє ϻє ᴧᴅϻɪη ᴘєʀϻɪssɪσηs.", show_alert=True)
+        await callback.answer("❌ ғᴧɪʟєᴅ ᴛσ υηʙᴧη. ɢɪᴠє ϻє ᴧᴅϻɪη ᴘєʀϻɪssɪσηs.", show_alert=True)
 
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
 @languageCB
@@ -205,7 +204,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             else:
                 await CallbackQuery.answer(_["admin_39"], show_alert=True)
 
-            upl = InlineKeyboardMarkup([[InlineKeyboardButton(text=f"👍 {get_upvotes}", callback_data=f"ADMIN  UpVote|{chat_id}_{counter}", style=style_map[1])]])
+            upl = InlineKeyboardMarkup([[InlineKeyboardButton(text=f"🔥 {get_upvotes}", callback_data=f"ADMIN  UpVote|{chat_id}_{counter}", style=style_map[1])]])
             await CallbackQuery.answer(_["admin_40"], show_alert=True)
             return await CallbackQuery.edit_message_reply_markup(reply_markup=upl)
     else:
