@@ -34,8 +34,8 @@ from config import BANNED_USERS, lyrical
 # =======================================================
 # 🎨 PREMIUM TEXT STYLES & FALLBACKS
 # =======================================================
-MSG_DOWNLOADING = "➛ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐁𝐚𝐛𝐲 𝐩𝐥𝐞𝐚𝐬𝐞 𝐰𝐚𝐢𝐭😁...."
-MSG_STARTING = "➛ 𝐒𝐭𝐚𝐫𝐭𝐢𝐧𝐠 𝐒𝐭𝐫𝐞𝐚𝐦 𝐄𝐧𝐣𝐨𝐲🎵❤️...."
+MSG_DOWNLOADING = "<tg-emoji emoji-id=\"6156513311585211842\">🌀</tg-emoji> 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐁𝐚𝐛𝐲 𝐩𝐥𝐞𝐚𝐬𝐞 𝐰𝐚𝐢𝐭...."
+MSG_STARTING = "<tg-emoji emoji-id=\"6129476453802188018\">▶️</tg-emoji> 𝐒𝐭𝐚𝐫𝐭𝐢𝐧𝐠 𝐒𝐭𝐫𝐞𝐚𝐦 𝐄𝐧𝐣𝐨𝐲...."
 FALLBACK_IMG = "https://telegra.ph/file/2e3d368e77c449c287430.jpg" # CRITICAL FIX: Yeh crash rokega
 
 def get_timer_text(start_time, end_time=None):
@@ -72,10 +72,10 @@ async def stylish_progress_bar(current, total, msg, start_time, command_start_ti
     bar = "●" * filled + "○" * empty
 
     text = f"**{MSG_DOWNLOADING}**\n\n"
-    text += f"**⚡ 𝐏𝐫𝐨𝐠𝐫𝐞𝐬𝐬:** `[{bar}] {round(percentage, 2)}%`\n"
-    text += f"**📥 𝐒𝐢𝐳𝐞:** `{downloaded} MB / {total_size} MB`\n"
-    text += f"**🚀 𝐒𝐩𝐞𝐞𝐝:** `{speed} MB/s`\n"
-    text += f"**⏳ 𝐄𝐓𝐀:** `{eta} sec`\n"
+    text += f"<tg-emoji emoji-id=\"6100220081474639964\">⚡</tg-emoji> **𝐏𝐫𝐨𝐠𝐫𝐞𝐬𝐬:** `[{bar}] {round(percentage, 2)}%`\n"
+    text += f"<tg-emoji emoji-id=\"5409186957676785646\">📥</tg-emoji> **𝐒𝐢𝐳𝐞:** `{downloaded} MB / {total_size} MB`\n"
+    text += f"<tg-emoji emoji-id=\"6172332822892647766\">🚀</tg-emoji> **𝐒𝐩𝐞𝐞𝐝:** `{speed} MB/s`\n"
+    text += f"<tg-emoji emoji-id=\"5891211339170326418\">⏳</tg-emoji> **𝐄𝐓𝐀:** `{eta} sec`\n"
 
     try:
         await msg.edit_text(text)
@@ -159,13 +159,13 @@ async def send_security_log(message: Message, breach_type: str, payload: str):
             
         # USER REQUESTED LOG FORMAT
         log_text = (
-            f"🚨 **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: {breach_type}** 🚨\n\n"
-            f"👤 **User:** {user_mention}\n"
-            f"🆔 **User ID:** `{user_id}`\n"
-            f"📛 **Username:** {username}\n"
-            f"👥 **Group Name:** {chat_title}\n"
-            f"🔗 **Group Link/ID:** {chat_link}\n\n"
-            f"⚠️ **Payload/Link:**\n`{payload}`"
+            f"<tg-emoji emoji-id=\"6102938383456146362\">🚨</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: {breach_type}**\n\n"
+            f"<tg-emoji emoji-id=\"6032609071373226027\">👤</tg-emoji> **User:** {user_mention}\n"
+            f"<tg-emoji emoji-id=\"6235576525563895420\">🆔</tg-emoji> **User ID:** `{user_id}`\n"
+            f"<tg-emoji emoji-id=\"6021618194228187816\">📛</tg-emoji> **Username:** {username}\n"
+            f"<tg-emoji emoji-id=\"6032609071373226027\">👥</tg-emoji> **Group Name:** {chat_title}\n"
+            f"<tg-emoji emoji-id=\"6100424015111787987\">🔗</tg-emoji> **Group Link/ID:** {chat_link}\n\n"
+            f"<tg-emoji emoji-id=\"6102938383456146362\">⚠️</tg-emoji> **Payload/Link:**\n`{payload}`"
         )
         
         buttons = InlineKeyboardMarkup([
@@ -187,7 +187,7 @@ async def send_security_log(message: Message, breach_type: str, payload: str):
             
         sent_msg = await message.reply_video(
             video=video_url, 
-            caption="⚠️ **Malicious content detected. This action is not allowed.**\n\n_This message will auto-delete in 10 min._"
+            caption="<tg-emoji emoji-id=\"6102938383456146362\">⚠️</tg-emoji> **Malicious content detected. This action is not allowed.**\n\n_This message will auto-delete in 10 min._"
         )
         
         try:
@@ -292,7 +292,7 @@ async def play_commnd(
     
     if audio_telegram:
         if audio_telegram.file_size > 419430400: # 400MB LIMIT
-            return await mystic.edit_text("❌ **File is too large! Maximum allowed limit is 400 MB BECAUSE OF HEAVY LOAD BOAT BECOME SLOW SO WE CAN'T SORRY.**")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **File is too large! Maximum allowed limit is 400 MB BECAUSE OF HEAVY LOAD BOAT BECOME SLOW SO WE CAN'T SORRY.**")
             
         duration_min = seconds_to_min(audio_telegram.duration) if hasattr(audio_telegram, 'duration') and audio_telegram.duration else "Unknown"
         if hasattr(audio_telegram, 'duration') and audio_telegram.duration and audio_telegram.duration > config.DURATION_LIMIT:
@@ -307,12 +307,12 @@ async def play_commnd(
             from PritiMusic.utils.database import get_assistant
             userbot = await get_assistant(chat_id)
             if not userbot:
-                return await mystic.edit_text("❌ **Assistant Required!**\nTo play files larger than 20MB, the assistant account must be active.")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Assistant Required!**\nTo play files larger than 20MB, the assistant account must be active.")
             dl_client = userbot
             try:
                 msg_to_dl = await userbot.get_messages(message.chat.id, message.reply_to_message.id)
             except Exception as e:
-                return await mystic.edit_text(f"❌ **Assistant Access Error:** Assistant cannot see this message. `{e}`")
+                return await mystic.edit_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Assistant Access Error:** Assistant cannot see this message. `{e}`")
 
         start_dl_time = time.time()
         
@@ -324,7 +324,7 @@ async def play_commnd(
                 progress_args=(mystic, start_dl_time, command_start_time)
             )
         except Exception as e:
-            return await mystic.edit_text(f"❌ **Download Failed:**\n`{str(e)}`")
+            return await mystic.edit_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Download Failed:**\n`{str(e)}`")
 
         if file_path and os.path.exists(file_path) and os.path.getsize(file_path) > 0:
             message_link = await Telegram.get_link(message)
@@ -342,7 +342,7 @@ async def play_commnd(
             
             if is_nsfw_content(details.get("title", "")):
                 await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ (Telegram Audio)", details.get("title", ""))
-                return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
             try:
                 if getattr(mystic, "text", None):
@@ -364,11 +364,11 @@ async def play_commnd(
                 )
             except Exception as e:
                 try:
-                    return await mystic.edit_text(f"❌ **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ (ᴀᴜᴅɪᴏ):**\n\n`{str(e)}`")
+                    return await mystic.edit_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ (ᴀᴜᴅɪᴏ):**\n\n`{str(e)}`")
                 except: return
             return await mystic.delete()
         else:
-            return await mystic.edit_text("❌ **Download Failed:** The file is empty or corrupted.")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Download Failed:** The file is empty or corrupted.")
             
     elif video_telegram:
         if message.reply_to_message.document:
@@ -382,7 +382,7 @@ async def play_commnd(
                 pass
                 
         if video_telegram.file_size > 419430400: # 400MB Limit
-            return await mystic.edit_text("❌ **File is too large! Maximum allowed limit is 400 MB BECAUSE OF HEAVY LOAD BOAT BECOME SLOW SO WE CAN'T SORRY.**")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **File is too large! Maximum allowed limit is 400 MB BECAUSE OF HEAVY LOAD BOAT BECOME SLOW SO WE CAN'T SORRY.**")
             
         dl_client = client
         msg_to_dl = message.reply_to_message
@@ -391,12 +391,12 @@ async def play_commnd(
             from PritiMusic.utils.database import get_assistant
             userbot = await get_assistant(chat_id)
             if not userbot:
-                return await mystic.edit_text("❌ **Assistant Required!**\nTo play files larger than 20MB, the assistant account must be active.")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Assistant Required!**\nTo play files larger than 20MB, the assistant account must be active.")
             dl_client = userbot
             try:
                 msg_to_dl = await userbot.get_messages(message.chat.id, message.reply_to_message.id)
             except Exception as e:
-                return await mystic.edit_text(f"❌ **Assistant Access Error:** Assistant cannot see this message. `{e}`")
+                return await mystic.edit_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Assistant Access Error:** Assistant cannot see this message. `{e}`")
 
         start_dl_time = time.time()
 
@@ -408,7 +408,7 @@ async def play_commnd(
                 progress_args=(mystic, start_dl_time, command_start_time)
             )
         except Exception as e:
-            return await mystic.edit_text(f"❌ **Download Failed:**\n`{str(e)}`")
+            return await mystic.edit_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Download Failed:**\n`{str(e)}`")
 
         if file_path and os.path.exists(file_path) and os.path.getsize(file_path) > 0:
             message_link = await Telegram.get_link(message)
@@ -426,7 +426,7 @@ async def play_commnd(
             
             if is_nsfw_content(details.get("title", "")):
                 await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ (Telegram Video)", details.get("title", ""))
-                return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
             try:
                 if getattr(mystic, "text", None):
@@ -449,23 +449,23 @@ async def play_commnd(
                 )
             except Exception as e:
                 try:
-                    return await mystic.edit_text(f"❌ **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ (ᴠɪᴅᴇᴏ):**\n\n`{str(e)}`")
+                    return await mystic.edit_text(f"<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **sᴛʀᴇᴀᴍ ᴇʀʀᴏʀ (ᴠɪᴅᴇᴏ):**\n\n`{str(e)}`")
                 except: return
             return await mystic.delete()
         else:
-            return await mystic.edit_text("❌ **Download Failed!** The file is empty.\n\n_Note: Assistant accounts can download up to 2GB max (4GB if premium)._")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Download Failed!** The file is empty.\n\n_Note: Assistant accounts can download up to 2GB max (4GB if premium)._")
             
     elif url:
         if not url.startswith(("http://", "https://")):
-            return await mystic.edit_text("❌ **Security Error:** Local files are not allowed.")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Security Error:** Local files are not allowed.")
             
         if is_malicious_link(url):
             await send_security_log(message, "ᴍᴀʟɪᴄɪᴏᴜs ʜᴀᴄᴋ ʟɪɴᴋ", url)
-            return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴍᴀʟɪᴄɪᴏᴜs ʟɪɴᴋ ʙʟᴏᴄᴋᴇᴅ!**")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴍᴀʟɪᴄɪᴏᴜs ʟɪɴᴋ ʙʟᴏᴄᴋᴇᴅ!**")
 
         if is_nsfw_content(url):
             await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", url)
-            return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
         allowed_domains = [
             "youtube.com", "youtu.be",
@@ -476,7 +476,7 @@ async def play_commnd(
         
         if not any(domain in url for domain in allowed_domains):
              return await mystic.edit_text(
-                 "❌ **Unsupported Link!**\n\n"
+                 "<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Unsupported Link!**\n\n"
                  "Only YouTube, Spotify, SoundCloud, Apple Music, and Resso are supported."
              )
 
@@ -508,10 +508,10 @@ async def play_commnd(
                     return await mystic.edit_text(_["play_3"])
                     
                 if not details:
-                    return await mystic.edit_text("❌ **Error:** Failed to fetch track details from the server.")
+                    return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Error:** Failed to fetch track details from the server.")
                 if is_nsfw_content(details.get("title", "")):
                     await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", details.get("title", ""))
-                    return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                    return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
                 streamtype = "youtube"
                 img = details.get("thumb") or FALLBACK_IMG
@@ -524,10 +524,10 @@ async def play_commnd(
                     return await mystic.edit_text(_["play_3"])
                     
                 if not details:
-                    return await mystic.edit_text("❌ **Error:** Failed to fetch track details from the server.")
+                    return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Error:** Failed to fetch track details from the server.")
                 if is_nsfw_content(details.get("title", "")):
                     await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", details.get("title", ""))
-                    return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                    return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
                 streamtype = "youtube"
                 img = details.get("thumb") or FALLBACK_IMG
@@ -544,10 +544,10 @@ async def play_commnd(
                     return await mystic.edit_text(_["play_3"])
                     
                 if not details:
-                    return await mystic.edit_text("❌ **Error:** Failed to fetch track details from the server.")
+                    return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Error:** Failed to fetch track details from the server.")
                 if is_nsfw_content(details.get("title", "")):
                     await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", details.get("title", ""))
-                    return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                    return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
                 streamtype = "youtube"
                 img = details.get("thumb") or FALLBACK_IMG
@@ -589,10 +589,10 @@ async def play_commnd(
                     return await mystic.edit_text(_["play_3"])
                     
                 if not details:
-                    return await mystic.edit_text("❌ **Error:** Failed to fetch track details from the server.")
+                    return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Error:** Failed to fetch track details from the server.")
                 if is_nsfw_content(details.get("title", "")):
                     await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", details.get("title", ""))
-                    return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                    return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
                 streamtype = "youtube"
                 img = details.get("thumb") or FALLBACK_IMG
@@ -616,10 +616,10 @@ async def play_commnd(
                 return await mystic.edit_text(_["play_3"])
                 
             if not details:
-                return await mystic.edit_text("❌ **Error:** Failed to fetch track details from the server.")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Error:** Failed to fetch track details from the server.")
             if is_nsfw_content(details.get("title", "")):
                 await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", details.get("title", ""))
-                return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
             streamtype = "youtube"
             img = details.get("thumb") or FALLBACK_IMG
@@ -726,7 +726,7 @@ async def play_commnd(
 
         if is_nsfw_content(query):
             await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", query)
-            return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
         try:
             details, track_id = await YouTube.track(query)
@@ -734,10 +734,10 @@ async def play_commnd(
             return await mystic.edit_text(_["play_3"])
             
         if not details:
-            return await mystic.edit_text("❌ **Error:** Failed to fetch track details from the server.")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Error:** Failed to fetch track details from the server.")
         if is_nsfw_content(details.get("title", "")):
             await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", details.get("title", ""))
-            return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+            return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
         streamtype = "youtube"
         img = details.get("thumb") or FALLBACK_IMG
@@ -902,14 +902,14 @@ async def play_music(client, CallbackQuery, _):
         return await mystic.edit_text(_["play_3"])
         
     if not details:
-        return await mystic.edit_text("❌ **Error:** Failed to fetch track details from the server.")
+        return await mystic.edit_text("<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Error:** Failed to fetch track details from the server.")
         
     # ✅ FIX: Missing Thumbnail Fallback
     if details and not details.get("thumb"):
         details["thumb"] = FALLBACK_IMG
         
     if is_nsfw_content(details.get("title", "")):
-        return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+        return await mystic.edit_text("<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
     if details["duration_min"]:
         duration_sec = time_to_seconds(details["duration_min"])
@@ -1103,12 +1103,12 @@ async def slider_queries(client, CallbackQuery, _):
         if not title:
             try: await CallbackQuery.message.delete()
             except: pass
-            return await app.send_message(CallbackQuery.message.chat.id, "❌ **Error:** Failed to fetch track details.")
+            return await app.send_message(CallbackQuery.message.chat.id, "<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Error:** Failed to fetch track details.")
 
         if is_nsfw_content(title):
             try: await CallbackQuery.message.delete()
             except: pass
-            return await app.send_message(CallbackQuery.message.chat.id, "**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+            return await app.send_message(CallbackQuery.message.chat.id, "<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
         # ✅ FIX: Missing Thumbnail Fallback for slider
         thumbnail = thumbnail or FALLBACK_IMG
@@ -1131,12 +1131,12 @@ async def slider_queries(client, CallbackQuery, _):
         if not title:
             try: await CallbackQuery.message.delete()
             except: pass
-            return await app.send_message(CallbackQuery.message.chat.id, "❌ **Error:** Failed to fetch track details.")
+            return await app.send_message(CallbackQuery.message.chat.id, "<tg-emoji emoji-id=\"6271611232457855630\">❌</tg-emoji> **Error:** Failed to fetch track details.")
 
         if is_nsfw_content(title):
             try: await CallbackQuery.message.delete()
             except: pass
-            return await app.send_message(CallbackQuery.message.chat.id, "**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+            return await app.send_message(CallbackQuery.message.chat.id, "<tg-emoji emoji-id=\"6271674836628541366\">🚫</tg-emoji> **sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ɪs sᴛʀɪᴄᴛʟʏ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
 
         # ✅ FIX: Missing Thumbnail Fallback for slider
         thumbnail = thumbnail or FALLBACK_IMG
