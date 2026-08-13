@@ -2,6 +2,7 @@ import random
 import asyncio
 from pyrogram import filters, Client
 from pyrogram.types import CallbackQuery, InputMediaPhoto, InlineKeyboardMarkup
+from pyrogram.enums import ButtonStyle 
 
 import config
 from PritiMusic import app, YouTube
@@ -21,7 +22,7 @@ from config import BANNED_USERS, STREAM_IMG_URL, PLAYLIST_IMG_URL, votemode, adm
 from strings import get_string
 from PritiMusic.utils.inline.start import private_panel
 
-from button import styled_button, ButtonStyle
+from button import styled_button
 
 checker = {}
 upvoters = {}
@@ -86,7 +87,7 @@ async def del_back_playlist(client: Client, CallbackQuery, _):
         if get_upvotes >= upvote:
             await CallbackQuery.edit_message_text(_["admin_37"].format(upvote))
         else:
-            upl = InlineKeyboardMarkup([[styled_button(text=f"👍 {get_upvotes}", callback_data=f"ADMIN UpVote|{chat_id}_{counter}", style=ButtonStyle.PRIMARY)]])
+            upl = InlineKeyboardMarkup([[styled_button(text=f"🔥 {get_upvotes}", callback_data=f"ADMIN UpVote|{chat_id}_{counter}", style=ButtonStyle.PRIMARY)]])
             await CallbackQuery.answer(_["admin_40"], show_alert=True)
             await CallbackQuery.edit_message_reply_markup(reply_markup=upl)
 
@@ -120,20 +121,20 @@ async def del_back_playlist(client: Client, CallbackQuery, _):
             await autoplay_off(chat_id)
             await CallbackQuery.answer("🔴 Ʌυᴛσᴘʟᴧʏ ᴅɪsᴧʙʟєᴅ!", show_alert=True)
             await CallbackQuery.message.reply_text(
-                f"<blockquote><b>🔴 🎧 Ʌυᴛσᴘʟᴧʏ sʏsᴛєϻ</b>\n\n<b>Ʌυᴛσᴘʟᴧʏ ғσʀ ᴛʜɪs ɢʀσυᴘ ɪs ησᴡ ᴅɪsᴧʙʟєᴅ 🔴.</b>\n└ <b>ʙʏ :</b> {mention}</blockquote>",
+                f"<blockquote><b><tg-emoji emoji-id=\"5318840353510408444\">🔴</tg-emoji> <tg-emoji emoji-id=\"6082387600599944892\">🎧</tg-emoji> Ʌυᴛσᴘʟᴧʏ sʏsᴛєϻ</b>\n\n<b>Ʌυᴛσᴘʟᴧʏ ғσʀ ᴛʜɪs ɢʀσυᴘ ɪs ησᴡ ᴅɪsᴧʙʟєᴅ <tg-emoji emoji-id=\"5318840353510408444\">🔴</tg-emoji>.</b>\n└ <b>ʙʏ :</b> {mention}</blockquote>",
                 reply_markup=close_markup(_)
             )
         else:
             await autoplay_on(chat_id)
             await CallbackQuery.answer("🟢 Ʌυᴛσᴘʟᴧʏ єηᴧʙʟєᴅ!", show_alert=True)
             await CallbackQuery.message.reply_text(
-                f"<blockquote><b>🟢 🎧 Ʌυᴛσᴘʟᴧʏ sʏsᴛєϻ</b>\n\n<b>Ʌυᴛσᴘʟᴧʏ ғσʀ ᴛʜɪs ɢʀσυᴘ ɪs ησᴡ єηᴧʙʟєᴅ 🟢.</b>\n└ <b>ʙʏ :</b> {mention}</blockquote>",
+                f"<blockquote><b><tg-emoji emoji-id=\"6113685078825505075\">🟢</tg-emoji> <tg-emoji emoji-id=\"6082387600599944892\">🎧</tg-emoji> Ʌυᴛσᴘʟᴧʏ sʏsᴛєϻ</b>\n\n<b>Ʌυᴛσᴘʟᴧʏ ғσʀ ᴛʜɪs ɢʀσυᴘ ɪs ησᴡ єηᴧʙʟєᴅ <tg-emoji emoji-id=\"6113685078825505075\">🟢</tg-emoji>.</b>\n└ <b>ʙʏ :</b> {mention}</blockquote>",
                 reply_markup=close_markup(_)
             )
 
     elif command in ["Skip", "Replay"]:
         check = db.get(chat_id)
-        if not check: return await CallbackQuery.answer("Queue khali hai!", show_alert=True)
+        if not check: return await CallbackQuery.answer("⚠️ Queue khali hai!", show_alert=True)
 
         await CallbackQuery.answer()
 
@@ -147,7 +148,7 @@ async def del_back_playlist(client: Client, CallbackQuery, _):
             clients = await Lucky.get_active_clients(chat_id)
             pytgcalls_client = clients[0] if clients else Lucky.one
             await Lucky.change_stream(pytgcalls_client, chat_id)
-            return await CallbackQuery.edit_message_text(f"➻ sᴛʀᴇᴀᴍ sᴋɪᴩᴩᴇᴅ 🎄", reply_markup=close_markup(_))
+            return await CallbackQuery.edit_message_text(f"<blockquote><b><tg-emoji emoji-id=\"5850346984501680054\">▶️</tg-emoji> ➻ sᴛʀєᴧϻ sᴋɪᴘᴘєᴅ <tg-emoji emoji-id=\"6172273586703700991\">🥀</tg-emoji></b>\n│ \n└<b>ʙʏ :</b> {mention}</blockquote>", reply_markup=close_markup(_))
 
         else:
             db[chat_id][0]["played"] = 0
@@ -162,7 +163,7 @@ async def del_back_playlist(client: Client, CallbackQuery, _):
             if chat_id in db and db[chat_id]:
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "stream"
-            await CallbackQuery.edit_message_text(f"➻ sᴛʀᴇᴀᴍ ʀᴇᴩʟᴀʏᴇᴅ 🎄", reply_markup=close_markup(_))
+            await CallbackQuery.edit_message_text(f"<blockquote><b><tg-emoji emoji-id=\"5960671702059848143\">⬅️</tg-emoji> ➻ sᴛʀєᴧϻ ʀє-ᴘʟᴧʏєᴅ <tg-emoji emoji-id=\"6172273586703700991\">🥀</tg-emoji></b>\n│ \n└<b>ʙʏ :</b> {mention}</blockquote>", reply_markup=close_markup(_))
 
 async def markup_timer():
     while True:
