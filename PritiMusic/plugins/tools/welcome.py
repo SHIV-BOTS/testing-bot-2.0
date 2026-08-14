@@ -3,7 +3,6 @@ import re
 import random
 import asyncio
 from logging import getLogger
-from PIL import Image, ImageDraw, ImageFont, ImageEnhance
 from pyrogram import Client, filters, enums
 from pyrogram.enums import ButtonStyle
 from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
@@ -24,17 +23,17 @@ weltime_state = {}
 def parse_buttons(text):
     if not text:
         return text, None
-    
+
     clean_text = ""
     buttons = []
-    
+
     available_styles = [ButtonStyle.PRIMARY, ButtonStyle.SUCCESS, ButtonStyle.DANGER]
     color_map = {
         "red": ButtonStyle.DANGER,
         "green": ButtonStyle.SUCCESS,
         "blue": ButtonStyle.PRIMARY
     }
-    
+
     for line in text.split("\n"):
         if re.search(r'\[.+?\]\(buttonurl:.+?\)', line, re.IGNORECASE):
             row = []
@@ -46,7 +45,7 @@ def parse_buttons(text):
                     btn_name = match.group(1).strip()
                     btn_url = match.group(2).strip()
                     color_str = match.group(3)
-                    
+
                     btn_style = color_map[color_str.lower()] if color_str else random.choice(available_styles)
                     row.append(InlineKeyboardButton(btn_name, url=btn_url, style=btn_style))
                 else:
@@ -56,12 +55,12 @@ def parse_buttons(text):
                         btn_name = match_fallback.group(1).strip()
                         btn_url = match_fallback.group(2).strip()
                         row.append(InlineKeyboardButton(btn_name, url=btn_url, style=random.choice(available_styles)))
-                        
+
             if row:
                 buttons.append(row)
         else:
             clean_text += line + "\n"
-            
+
     markup = InlineKeyboardMarkup(buttons) if buttons else None
     return clean_text.strip(), markup
 
@@ -74,68 +73,6 @@ async def auto_delete_message(message, delay_seconds):
             await message.delete()
     except Exception:
         pass
-
-
-# 🔥 3. AUTO-DELETE FILE (Server storage bachane ke liye 6 min baad file delete)
-async def delayed_file_delete(file_paths, delay_seconds):
-    try:
-        await asyncio.sleep(delay_seconds)
-        for path in file_paths:
-            if path and os.path.exists(path) and "assets" not in path:
-                os.remove(path)
-    except Exception:
-        pass
-
-
-# --- Image Processing Functions ---
-def create_circular_pfp(pfp, size=(447, 447), brightness=1.3):
-    pfp = pfp.resize(size, Image.Resampling.LANCZOS).convert("RGBA")
-    pfp = ImageEnhance.Brightness(pfp).enhance(brightness)
-    
-    mask = Image.new("L", size, 0)
-    draw = ImageDraw.Draw(mask)
-    draw.ellipse((0, 0) + size, fill=255)
-    
-    pfp.putalpha(mask)
-    return pfp
-
-
-def generate_welcome_image(pic_path, user_id, uname):
-    bg_path = "PritiMusic/assets/wel2.png"
-    font_path = "PritiMusic/assets/font.ttf"
-    
-    if not os.path.exists(bg_path):
-        return None
-
-    background = Image.open(bg_path).convert("RGBA")
-    
-    try:
-        pfp = Image.open(pic_path).convert("RGBA")
-    except Exception:
-        if os.path.exists("PritiMusic/assets/upic.png"):
-            pfp = Image.open("PritiMusic/assets/upic.png").convert("RGBA") 
-        else:
-            pfp = Image.new("RGBA", (447, 447), (255, 255, 255, 0)) 
-        
-    pfp = create_circular_pfp(pfp)
-    draw = ImageDraw.Draw(background)
-    
-    try:
-        font = ImageFont.truetype(font_path, size=40)
-    except Exception:
-        font = ImageFont.load_default()
-        
-    draw.text((730, 250), f'STATUS: MEMBER', fill=(255, 255, 255), font=font)
-    draw.text((730, 330), f'ID: {user_id}', fill=(255, 255, 255), font=font)
-    draw.text((730, 380), f"USERNAME: {uname}", fill=(255, 255, 255), font=font)
-    
-    pfp_position = (151, 139)
-    background.paste(pfp, pfp_position, pfp)
-    
-    os.makedirs("downloads", exist_ok=True)
-    output_path = f"downloads/welcome_{user_id}.png"
-    background.save(output_path)
-    return output_path
 
 
 # --- Commands ---
@@ -166,7 +103,7 @@ async def set_custom_welcome(client, message):
         return await message.reply("**sᴏʀʀʏ ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ!**")
 
     cmd_text = message.text.split(None, 1)[1] if len(message.command) > 1 else ""
-    
+
     # 🔥 Agar user ne sirf /set_welcome bheja hai bina detail ke, to example dikhao
     if not message.reply_to_message and not cmd_text:
         example_text = (
@@ -185,12 +122,12 @@ async def set_custom_welcome(client, message):
     reply = message.reply_to_message
     msg_type = "text"
     file_id = None
-    
+
     raw_text = cmd_text
     if reply:
         if not raw_text:
             raw_text = reply.text.markdown if reply.text else (reply.caption.markdown if reply.caption else "")
-        
+
         if reply.photo:
             msg_type, file_id = "photo", reply.photo.file_id
         elif reply.video:
@@ -215,11 +152,11 @@ async def clear_custom_welcome(client, message):
         return await message.reply("**sᴏʀʀʏ ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ!**")
 
     chat_id = message.chat.id
-    
+
     # Check agar group mein koi custom welcome set hai
     if chat_id in custom_welcomes:
         del custom_welcomes[chat_id]
-        await message.reply("**✅ ᴄᴜsᴛᴏᴍ ᴡᴇʟᴄᴏᴍᴇ ᴄʟᴇᴀʀᴇᴅ!\n\nɴᴏᴡ ᴅᴇғᴀᴜʟᴛ ɪᴍᴀɢᴇ ᴡᴇʟᴄᴏᴍᴇ ᴡɪʟʟ ʙᴇ ᴜsᴇᴅ.**")
+        await message.reply("**✅ ᴄᴜsᴛᴏᴍ ᴡᴇʟᴄᴏᴍᴇ ᴄʟᴇᴀʀᴇᴅ!\n\nɴᴏᴡ ᴅᴇғᴀᴜʟᴛ ᴛᴇxᴛ ᴡᴇʟᴄᴏᴍᴇ ᴡɪʟʟ ʙᴇ ᴜsᴇᴅ.**")
     else:
         await message.reply("**⚠️ ɴᴏ ᴄᴜsᴛᴏᴍ ᴡᴇʟᴄᴏᴍᴇ ɪs sᴇᴛ ғᴏʀ ᴛʜɪs ɢʀᴏᴜᴘ.**")
 
@@ -234,7 +171,7 @@ async def set_weltime(client, message):
         return await message.reply("**ᴜsᴀɢᴇ:**\n**⦿ /weltime [minutes|off]** (e.g., /weltime 5)")
 
     val = message.command[1].lower()
-    
+
     if val == "off":
         weltime_state[message.chat.id] = 0
         return await message.reply("**✅ ᴡᴇʟᴄᴏᴍᴇ ᴀᴜᴛᴏ-ᴅᴇʟᴇᴛᴇ ᴅɪsᴀʙʟᴇᴅ.**")
@@ -251,7 +188,7 @@ async def set_weltime(client, message):
 @app.on_chat_member_updated(filters.group, group=-3)
 async def greet_new_member(client, member: ChatMemberUpdated):
     chat_id = member.chat.id
-    
+
     if welcome_state.get(chat_id, True) == False:
         return
 
@@ -269,14 +206,11 @@ async def greet_new_member(client, member: ChatMemberUpdated):
             pass
 
     try:
-        welcome_img = None
-        pic_path = None
-        
         # Agar admin ne custom welcome set kiya hai
         if chat_id in custom_welcomes:
             custom = custom_welcomes[chat_id]
             formatted_text = custom["text"].replace("{mention}", user.mention).replace("{id}", str(user.id)).replace("{username}", f"@{user.username}" if user.username else "None").replace("{count}", str(count))
-            
+
             if custom["type"] == "text":
                 msg = await client.send_message(chat_id, text=formatted_text, reply_markup=custom["markup"])
             elif custom["type"] == "photo":
@@ -287,39 +221,18 @@ async def greet_new_member(client, member: ChatMemberUpdated):
                 msg = await client.send_animation(chat_id, animation=custom["file_id"], caption=formatted_text, reply_markup=custom["markup"])
             elif custom["type"] == "sticker":
                 msg = await client.send_sticker(chat_id, sticker=custom["file_id"], reply_markup=custom["markup"])
-                
-        # Agar custom nahi hai to default Image Welcome
+
+        # Agar custom nahi hai to DEFAULT SIMPLE TEXT Welcome (Without Buttons and Count)
         else:
-            pic_path = "PritiMusic/assets/upic.png"
-            if user.photo:
-                try:
-                    os.makedirs("downloads", exist_ok=True)
-                    pic_path = await client.download_media(user.photo.big_file_id, file_name=f"downloads/pp{user.id}.png")
-                except Exception:
-                    pass
+            caption = (
+                f"**ʜᴇʏ {user.mention} 👋,**\n\n"
+                f"**ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ {member.chat.title}!**"
+            )
 
-            welcome_img = generate_welcome_image(pic_path, user.id, user.username or "None")
-            bot_username = app.username if hasattr(app, "username") and app.username else "Bot"
-            
-            caption = f"**⎊─────☵ ᴡᴇʟᴄᴏᴍᴇ ☵─────⎊**\n\n**☉ ɴᴀᴍᴇ ⧽** {user.mention}\n**☉ ɪᴅ ⧽** `{user.id}`\n**☉ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs ⧽** {count}\n\n**⎉──────▢✭ 侖 ✭▢──────⎉**"
-            
-            styles = [ButtonStyle.PRIMARY, ButtonStyle.SUCCESS, ButtonStyle.DANGER]
-            markup = InlineKeyboardMarkup([
-                [InlineKeyboardButton("๏ ᴠɪᴇᴡ ᴍᴇᴍʙᴇʀ ๏", url=f"tg://openmessage?user_id={user.id}", style=random.choice(styles))], 
-                [InlineKeyboardButton("✙ ᴋɪᴅɴᴀᴘ ᴍᴇ ✙", url=f"https://t.me/{bot_username}?startgroup=true", style=random.choice(styles))]
-            ])
-
-            if welcome_img:
-                msg = await client.send_photo(chat_id, photo=welcome_img, caption=caption, reply_markup=markup)
-            else:
-                msg = await client.send_message(chat_id, text=caption, reply_markup=markup)
+            msg = await client.send_message(chat_id, text=caption)
 
         last_welcome_msg[chat_id] = msg
-        
-        # 🔥 SERVER STORAGE CLEANUP (6 minutes / 360 seconds delay)
-        files_to_delete = [welcome_img, pic_path]
-        asyncio.create_task(delayed_file_delete(files_to_delete, 360))
-            
+
         # 🔥 CHAT MESSAGE CLEANUP (User set time, default 5 mins / 300 seconds)
         delay = weltime_state.get(chat_id, 300) 
         asyncio.create_task(auto_delete_message(msg, delay))
