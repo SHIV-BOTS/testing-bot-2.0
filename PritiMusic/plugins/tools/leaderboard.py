@@ -6,7 +6,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from PritiMusic import app
-from config import LOGGER_ID, SUDO_USERS
+from config import LOGGER_ID, SUDOERS
 from PritiMusic.utils.database.leaderboard import get_leaderboard, reset_leaderboard
 
 # 💎 Premium Emojis ID List
