@@ -109,6 +109,7 @@ lyrical = {}
 votemode = {}
 autoclean = []
 confirmer = {}
+EQ_CHATS = []  # Or add specific chat IDs if required by your bot setup
 
 START_IMG_URL = getenv("START_IMG_URL", "https://files.catbox.moe/n22tbs.jpg").split()
 
