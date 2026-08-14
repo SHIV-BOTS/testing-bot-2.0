@@ -4,7 +4,7 @@ import random
 from pyrogram.enums import ButtonStyle
 from pyrogram.types import InlineKeyboardButton
 
-from config import SUPPORT_CHAT, OWNER_USERNAME
+from config import SUPPORT_CHAT, SUPPORT_CHANNEL, OWNER_USERNAME
 from PritiMusic import app
 import config
 from PritiMusic.utils.formatters import time_to_seconds
@@ -20,9 +20,26 @@ PREMIUM_EMOJIS = [
 # 🎧 Specific Premium Emoji IDs for Playback Controls
 PLAY_EMOJI = 6158973722255429425     # ▶️
 PAUSE_EMOJI = 4970176665062736422    # ⏸️
-REPLAY_EMOJI = 5258419835922030550   # 🔁
+EQ_EMOJI = 5408916593780470262       # 🎛 (Equalizer / Menu Icon - Replaced Replay)
 SKIP_EMOJI = 4969851488793788974     # ⏭️
 STOP_EMOJI = 6129486856212979482     # 🛑
+
+# 🎛 Specific Premium Emoji IDs for EQ & Volume Menu
+EMOJI_VDOWN = 5409331062419502443    # 🔉
+EMOJI_VUP = 6039381989985882045      # 📢
+EMOJI_BOOST = 6172332822892647766    # 🚀
+EMOJI_8D = 5373310679241466020       # 🌀
+EMOJI_AUDI = 6188045471118790922     # 🌍
+EMOJI_DJ = 6082387600599944892       # 🎧
+EMOJI_BASS = 6100220081474639964     # ⚡️
+EMOJI_CLUB = 6172312314423808834     # ✨
+EMOJI_SLOWED = 6172273586703700991   # 🥀
+EMOJI_NIGHTCORE = 5258334469152054985# 🎶
+EMOJI_NORMAL = 5350396951407895212   # ⚙️
+EMOJI_UPDATES = 6039381989985882045  # 📢
+EMOJI_SUPPORT = 6021618194228187816  # 💬
+EMOJI_OWNER = 6237864166879663987    # 👑
+EMOJI_BACK = 5352759161945867747     # 🔙
 
 # 🎨 Dynamic Color Generator
 def get_style_map():
@@ -52,7 +69,50 @@ def clone_button(style):
         style=style
     )
 
-# --- MARKUP FUNCTIONS ---
+# --- NESTED EQ & VOLUME MARKUP ---
+def eq_markup(_, chat_id):
+    s_map = get_style_map()
+    buttons = [
+        # 1. Volume Controller & Booster
+        [
+            create_btn(text="V-Down", cb=f"vol_down|{chat_id}", style=s_map[2], emoji_id=EMOJI_VDOWN),
+            create_btn(text="V-Up", cb=f"vol_up|{chat_id}", style=s_map[2], emoji_id=EMOJI_VUP),
+            create_btn(text="Booster", cb=f"vol_boost|{chat_id}", style=s_map[1], emoji_id=EMOJI_BOOST)
+        ],
+        # 2. Spatial & Auditorium
+        [
+            create_btn(text="8D Audio", cb=f"eq_8d|{chat_id}", style=s_map[1], emoji_id=EMOJI_8D),
+            create_btn(text="Auditorium", cb=f"eq_auditorium|{chat_id}", style=s_map[1], emoji_id=EMOJI_AUDI)
+        ],
+        # 3. DJ, Bass & Club 
+        [
+            create_btn(text="DJ Remix", cb=f"eq_dj|{chat_id}", style=s_map[1], emoji_id=EMOJI_DJ),
+            create_btn(text="Punchy Bass", cb=f"eq_bass|{chat_id}", style=s_map[1], emoji_id=EMOJI_BASS)
+        ],
+        [
+            create_btn(text="EDM/Club", cb=f"eq_club|{chat_id}", style=s_map[1], emoji_id=EMOJI_CLUB),
+            create_btn(text="Slowed", cb=f"eq_slowed|{chat_id}", style=s_map[3], emoji_id=EMOJI_SLOWED)
+        ],
+        # 4. Trends & Normal
+        [
+            create_btn(text="Nightcore", cb=f"eq_nightcore|{chat_id}", style=s_map[3], emoji_id=EMOJI_NIGHTCORE),
+            create_btn(text="Normal", cb=f"eq_normal|{chat_id}", style=s_map[3], emoji_id=EMOJI_NORMAL)
+        ],
+        # 5. Support & Update
+        [
+            create_btn(text="Update Channel", url=SUPPORT_CHANNEL, style=s_map[2], emoji_id=EMOJI_UPDATES),
+            create_btn(text="Support Channel", url=SUPPORT_CHAT, style=s_map[2], emoji_id=EMOJI_SUPPORT)
+        ],
+        # 6. Credits & Back Button
+        [
+            create_btn(text="the shiv", url=f"https://t.me/{OWNER_USERNAME}", style=s_map[3], emoji_id=EMOJI_OWNER),
+            create_btn(text="Back", cb=f"PanelMarkup None|{chat_id}", style=s_map[1], emoji_id=EMOJI_BACK)
+        ]
+    ]
+    return buttons
+
+
+# --- STANDARD MARKUP FUNCTIONS ---
 
 def track_markup(_, videoid, user_id, channel, fplay):
     s_map = get_style_map()
@@ -95,11 +155,11 @@ def stream_markup_timer(_, chat_id, played, dur):
         [
             create_btn(text=f"{played} {bar} {dur}", cb="GetTimer", style=s_map[1])
         ],
-        # Row 2: 5 Compact Play Controls with Premium Emojis
+        # Row 2: 5 Compact Play Controls with EQ Menu replacing Replay
         [
             create_btn(text="\u200b", cb=f"ADMIN Resume|{chat_id}", style=s_map[3], emoji_id=PLAY_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Pause|{chat_id}", style=s_map[3], emoji_id=PAUSE_EMOJI),
-            create_btn(text="\u200b", cb=f"ADMIN Replay|{chat_id}", style=s_map[3], emoji_id=REPLAY_EMOJI),
+            create_btn(text="\u200b", cb=f"EQMenu|{chat_id}", style=s_map[3], emoji_id=EQ_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Skip|{chat_id}", style=s_map[3], emoji_id=SKIP_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Stop|{chat_id}", style=s_map[3], emoji_id=STOP_EMOJI),
         ],
@@ -122,7 +182,7 @@ def stream_markup(_, chat_id):
         [
             create_btn(text="\u200b", cb=f"ADMIN Resume|{chat_id}", style=s_map[3], emoji_id=PLAY_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Pause|{chat_id}", style=s_map[3], emoji_id=PAUSE_EMOJI),
-            create_btn(text="\u200b", cb=f"ADMIN Replay|{chat_id}", style=s_map[3], emoji_id=REPLAY_EMOJI),
+            create_btn(text="\u200b", cb=f"EQMenu|{chat_id}", style=s_map[3], emoji_id=EQ_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Skip|{chat_id}", style=s_map[3], emoji_id=SKIP_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Stop|{chat_id}", style=s_map[3], emoji_id=STOP_EMOJI),
         ],
@@ -175,9 +235,9 @@ def slider_markup(_, videoid, user_id, query, query_type, channel, fplay):
             create_btn(text=_["P_B_2"], cb=f"MusicStream {videoid}|{user_id}|v|{channel}|{fplay}", style=s_map[2]),
         ],
         [
-            create_btn(text="ʙᴀᴄᴋ", cb=f"slider B|{query_type}|{query}|{user_id}|{channel}|{fplay}", style=s_map[3]),
-            create_btn(text=_["CLOSE_BUTTON"], cb=f"forceclose {query}|{user_id}", style=s_map[3]),
-            create_btn(text="ɴᴇxᴛ", cb=f"slider F|{query_type}|{query}|{user_id}|{channel}|{fplay}", style=s_map[3]),
+            create_btn(text="ʙᴀᴄᴋ", cb=f"slider B|{query_type}|{query}|{user_id}|{channel}|{fplay}", style=s_map[3], emoji_id=EMOJI_BWD),
+            create_btn(text=_["CLOSE_BUTTON"], cb=f"forceclose {query}|{user_id}", style=s_map[3], emoji_id=EMOJI_CLOSE),
+            create_btn(text="ɴᴇxᴛ", cb=f"slider F|{query_type}|{query}|{user_id}|{channel}|{fplay}", style=s_map[3], emoji_id=EMOJI_FWD),
         ],
         [clone_button(s_map[2])],
     ]
@@ -204,7 +264,7 @@ def queue_markup(_, videoid, chat_id):
         [
             create_btn(text="\u200b", cb=f"ADMIN Resume|{chat_id}", style=s_map[3], emoji_id=PLAY_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Pause|{chat_id}", style=s_map[3], emoji_id=PAUSE_EMOJI),
-            create_btn(text="\u200b", cb=f"ADMIN Replay|{chat_id}", style=s_map[3], emoji_id=REPLAY_EMOJI),
+            create_btn(text="\u200b", cb=f"EQMenu|{chat_id}", style=s_map[3], emoji_id=EQ_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Skip|{chat_id}", style=s_map[3], emoji_id=SKIP_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Stop|{chat_id}", style=s_map[3], emoji_id=STOP_EMOJI),
         ],
@@ -270,7 +330,7 @@ def panel_markup_2(_, videoid, chat_id):
         ],
         [
             clone_button(s_map[1]),
-            create_btn(text="ʙᴀᴄᴋ", cb=f"Pages Back|1|{videoid}|{chat_id}", style=s_map[1]),
+            create_btn(text="ʙᴀᴄᴋ", cb=f"Pages Back|1|{videoid}|{chat_id}", style=s_map[1], emoji_id=EMOJI_BACK),
         ],
     ]
     return buttons
@@ -285,7 +345,7 @@ def panel_markup_5(_, videoid, chat_id):
         [
             create_btn(text="\u200b", cb=f"ADMIN Resume|{chat_id}", style=s_map[3], emoji_id=PLAY_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Pause|{chat_id}", style=s_map[3], emoji_id=PAUSE_EMOJI),
-            create_btn(text="\u200b", cb=f"ADMIN Replay|{chat_id}", style=s_map[3], emoji_id=REPLAY_EMOJI),
+            create_btn(text="\u200b", cb=f"EQMenu|{chat_id}", style=s_map[3], emoji_id=EQ_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Skip|{chat_id}", style=s_map[3], emoji_id=SKIP_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Stop|{chat_id}", style=s_map[3], emoji_id=STOP_EMOJI),
         ],
@@ -315,7 +375,7 @@ def panel_markup_3(_, videoid, chat_id):
         ],
         [
             clone_button(s_map[1]),
-            create_btn(text="ʙᴀᴄᴋ", cb=f"Pages Back|2|{videoid}|{chat_id}", style=s_map[1]),
+            create_btn(text="ʙᴀᴄᴋ", cb=f"Pages Back|2|{videoid}|{chat_id}", style=s_map[1], emoji_id=EMOJI_BACK),
         ],
     ]
     return buttons
@@ -349,7 +409,7 @@ def panel_markup_4(_, vidid, chat_id, played, dur):
         [
             create_btn(text="\u200b", cb=f"ADMIN Resume|{chat_id}", style=s_map[3], emoji_id=PLAY_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Pause|{chat_id}", style=s_map[3], emoji_id=PAUSE_EMOJI),
-            create_btn(text="\u200b", cb=f"ADMIN Replay|{chat_id}", style=s_map[3], emoji_id=REPLAY_EMOJI),
+            create_btn(text="\u200b", cb=f"EQMenu|{chat_id}", style=s_map[3], emoji_id=EQ_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Skip|{chat_id}", style=s_map[3], emoji_id=SKIP_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Stop|{chat_id}", style=s_map[3], emoji_id=STOP_EMOJI),
         ],
@@ -392,7 +452,7 @@ def panel_markup_clone(_, vidid, chat_id, played, dur):
         [
             create_btn(text="\u200b", cb=f"ADMIN Resume|{chat_id}", style=s_map[3], emoji_id=PLAY_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Pause|{chat_id}", style=s_map[3], emoji_id=PAUSE_EMOJI),
-            create_btn(text="\u200b", cb=f"ADMIN Replay|{chat_id}", style=s_map[3], emoji_id=REPLAY_EMOJI),
+            create_btn(text="\u200b", cb=f"EQMenu|{chat_id}", style=s_map[3], emoji_id=EQ_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Skip|{chat_id}", style=s_map[3], emoji_id=SKIP_EMOJI),
             create_btn(text="\u200b", cb=f"ADMIN Stop|{chat_id}", style=s_map[3], emoji_id=STOP_EMOJI),
         ],
@@ -405,7 +465,7 @@ def panel_markup_clone(_, vidid, chat_id, played, dur):
             clone_button(s_map[1])
         ],
         [
-            create_btn(text=_["CLOSE_BUTTON"], cb="close", style=s_map[2])
+            create_btn(text=_["CLOSE_BUTTON"], cb="close", style=s_map[2], emoji_id=EMOJI_CLOSE)
         ]
     ]
     return buttons
