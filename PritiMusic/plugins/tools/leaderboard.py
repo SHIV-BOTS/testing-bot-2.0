@@ -80,7 +80,8 @@ async def show_leaderboard(client, message):
         
     await message.reply_text(text)
 
-@app.on_message(filters.command("resetleaderboard") & filters.user(SUDO_USERS))
+# ✅ FIX: Yahan filters.user(SUDO_USERS) ki jagah filters.user(SUDOERS) kar diya gaya hai
+@app.on_message(filters.command("resetleaderboard") & filters.user(SUDOERS))
 async def clean_monthly_lb(client, message):
     """Owner command to wipe leaderboard at the end of the month."""
     await reset_leaderboard()
