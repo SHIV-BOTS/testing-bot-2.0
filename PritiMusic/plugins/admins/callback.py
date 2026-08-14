@@ -23,7 +23,7 @@ from PritiMusic.utils.thumbnails import get_thumb
 import config
 from config import (
     BANNED_USERS, SOUNCLOUD_IMG_URL, STREAM_IMG_URL, TELEGRAM_AUDIO_URL,
-    TELEGRAM_VIDEO_URL, START_IMG_URL, adminlist, confirmer, votemode
+    TELEGRAM_VIDEO_URL, START_IMG_URL, adminlist, confirmer, votemode, EQ_CHATS
 )
 from strings import get_string
 from PritiMusic.utils.inline.start import private_panel
@@ -321,7 +321,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             return await CallbackQuery.message.reply_text(_["call_6"])
 
         button = stream_markup(_, chat_id)
-        img = await get_thumb(videoid, CallbackQuery.from_user.id, client)
+        img = await get_thumb(videoid, CallbackQuery.fromuser.id, client)
         run = await CallbackQuery.message.reply_photo(
             photo=img if img else STREAM_IMG_URL,
             caption=_["stream_1"].format(f"https://t.me/{app.username}?start=info_{videoid}", title[:23], duration, user),
@@ -337,12 +337,16 @@ async def markup_timer():
         active_chats = await get_active_chats()
         for chat_id in active_chats:
             try:
+                # 👉🏻 YEH RAHAA MAIN FIX: Agar chat_id EQ_CHATS list mein hai toh markup ko update mat karo 👈🏻
+                if chat_id in getattr(config, "EQ_CHATS", []):
+                    continue
+
                 if not await is_music_playing(chat_id): continue
                 playing = db.get(chat_id)
                 if not playing or int(playing[0]["seconds"]) == 0: continue
                 mystic = playing[0]["mystic"]
                 try:
-                    if checker[chat_id][mystic.id] is False: continue
+                    if checker.get(chat_id, {}).get(mystic.id) is False: continue
                 except: pass
 
                 try:
