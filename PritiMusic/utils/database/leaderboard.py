@@ -1,4 +1,4 @@
-from PritiMusic.core.mongo import db
+from PritiMusic.core.mongo import mongodb as db
 
 clone_lb = db.clone_leaderboard
 
