@@ -11,6 +11,10 @@ import config
 from PritiMusic import app
 from PritiMusic.misc import _boot_
 from PritiMusic.plugins.sudo.sudoers import sudoers_list
+
+# Leaderboard function import kiya gaya hai yahan 👇
+from PritiMusic.plugins.tools.leaderboard import show_leaderboard 
+
 from PritiMusic.utils.database import (
     add_served_chat,
     add_served_user,
@@ -79,6 +83,11 @@ async def start_pm(client, message: Message, _):
     await loading_1.delete()
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
+        
+        # 👇 LEADERBOARD DEEP LINK LOGIC ADDED HERE 👇
+        if name == "leaderboard":
+            return await show_leaderboard(client, message)
+            
         if name[0:4] == "help":
             keyboard = help_pannel(_)
             await app.send_chat_action(message.chat.id, ChatAction.TYPING)
