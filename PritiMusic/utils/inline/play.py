@@ -20,7 +20,7 @@ PREMIUM_EMOJIS = [
 # 🎧 Specific Premium Emoji IDs for Playback Controls
 PLAY_EMOJI = 6158973722255429425     # ▶️
 PAUSE_EMOJI = 4970176665062736422    # ⏸️
-EQ_EMOJI = 5408916593780470262       # 🎛 (Equalizer / Menu Icon - Replaced Replay)
+EQ_EMOJI = 5350396951407895212       # 🎛 (Equalizer / Menu Icon - Replaced Replay)
 SKIP_EMOJI = 4969851488793788974     # ⏭️
 STOP_EMOJI = 6129486856212979482     # 🛑
 
