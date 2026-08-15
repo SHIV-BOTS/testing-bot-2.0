@@ -149,6 +149,8 @@ class Call:
         self._volume_levels = {}
         self._audio_filters = {}
         self._effect_locks = {}
+        
+        self.is_modifying = {}
 
         self._setup_event_handlers()
 
@@ -174,6 +176,8 @@ class Call:
                             await self.stop_stream(c_id)
 
                     elif "StreamEnd" in t_name or "StreamAudioEnded" in t_name or "StreamVideoEnded" in t_name:
+                        if getattr(self, "is_modifying", {}).get(c_id):
+                            return
                         await self.change_stream(c, c_id)
 
                 except Exception:
@@ -318,6 +322,8 @@ class Call:
             if not assistants:
                 raise AssistantErr("No active voice chat assistant")
 
+            self.is_modifying[chat_id] = True
+            
             changed = 0
             for assistant in assistants:
                 try:
@@ -327,7 +333,11 @@ class Call:
                     LOGGER(__name__).error(f"Audio effect update failed in {chat_id}: {error}")
 
             if not changed:
+                self.is_modifying[chat_id] = False
                 raise AssistantErr("Could not update the active stream")
+
+            await asyncio.sleep(1.5)
+            self.is_modifying[chat_id] = False
 
         return True
 
@@ -507,11 +517,14 @@ class Call:
         extra_args = f"-ss {played} -to {duration}"
 
         if str(db[chat_id][0]["file"]) == str(file_path):
+            self.is_modifying[chat_id] = True
             for assistant in assistants:
                 try:
                     await self._safe_change_stream(assistant, chat_id, out, is_video, extra_args)
                 except Exception:
                     pass
+            await asyncio.sleep(1.5)
+            self.is_modifying[chat_id] = False
         else:
             raise AssistantErr("Umm")
 
@@ -550,11 +563,14 @@ class Call:
         is_video = mode == "video"
         extra_args = f"-ss {to_seek} -to {duration}"
 
+        self.is_modifying[chat_id] = True
         for assistant in assistants:
             try:
                 await self._safe_change_stream(assistant, chat_id, file_path, is_video, extra_args)
             except Exception:
                 pass
+        await asyncio.sleep(1.5)
+        self.is_modifying[chat_id] = False
 
     async def autoplay_start(self, chat_id: int, original_chat_id: int, seed_title: str, seed_vidid: str = None, client: PyTgCalls = None, bot_client=None) -> bool:
         if seed_vidid:
@@ -733,6 +749,8 @@ class Call:
                                 await self.stop_stream(c_id)
 
                         elif "StreamEnd" in t_name or "StreamAudioEnded" in t_name or "StreamVideoEnded" in t_name:
+                            if getattr(self, "is_modifying", {}).get(c_id):
+                                return
                             await self.change_stream(client, c_id)
 
                     except Exception as error:
