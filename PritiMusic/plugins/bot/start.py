@@ -29,8 +29,8 @@ from PritiMusic.utils.inline import help_pannel, private_panel, start_panel
 from config import BANNED_USERS, START_IMG_URL, CMBOT
 from strings import get_string
 
-# 👇 Typewriter Stream import
-from app.utils.progress import stream_typewriter_rich_message
+# 👇 Typewriter Stream import path FIXED yahan (app -> PritiMusic)
+from PritiMusic.utils.progress import stream_typewriter_rich_message
 
 # 💎 Premium Emojis List for Buttons (icon_custom_emoji_id)
 PREMIUM_EMOJIS = [
@@ -68,8 +68,8 @@ EFFECT_ID = [
 # 👇 HTML Builder yahan define kiya gaya hai
 def build_welcome_html(user_mention: str, bot_mention: str) -> str:
     # config se dynamically links nikalne ka try kar rahe hain
-    support_link = config.SUPPORT_CHAT if hasattr(config, 'SUPPORT_CHAT') else "https://t.me/YourSupportGroup"
-    update_link = config.SUPPORT_CHANNEL if hasattr(config, 'SUPPORT_CHANNEL') else "https://t.me/YourUpdateChannel"
+    support_link = config.SUPPORT_CHAT if hasattr(config, 'SUPPORT_CHAT') else "https://t.me/theshiv_support"
+    update_link = config.SUPPORT_CHANNEL if hasattr(config, 'SUPPORT_CHANNEL') else "https://t.me/theshiv_updates"
     
     return f"""
 <h2>✨ <mark>Welcome to {bot_mention}!</mark></h2>
@@ -88,7 +88,7 @@ Play your favorite tracks, manage playlists, and enjoy uninterrupted high-qualit
   <tg-button type="url" style="primary" url="{update_link}">📢 Updates</tg-button>
 </tg-button-row>
 <tg-button-row align="center">
-  <tg-button type="url" style="secondary" url="https://t.me/theshiv">🧑‍💻 the shiv</tg-button>
+  <tg-button type="url" style="secondary" url="https://t.me/theshiv">the shiv</tg-button>
 </tg-button-row>
 """
 
@@ -116,7 +116,7 @@ async def start_pm(client, message: Message, _):
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
         
-        # 👇 LEADERBOARD DEEP LINK LOGIC ADDED HERE 👇
+        # 👇 LEADERBOARD DEEP LINK LOGIC
         if name == "leaderboard":
             return await show_leaderboard(client, message)
             
@@ -145,7 +145,6 @@ async def start_pm(client, message: Message, _):
             query = (str(name)).replace("info_", "", 1)
             query = f"https://www.youtube.com/watch?v={query}"
             
-            # --- FIX APPLIED HERE ---
             try:
                 results = VideosSearch(query, limit=1)
                 search_data = await results.next()
@@ -153,14 +152,12 @@ async def start_pm(client, message: Message, _):
                 if not search_data or not search_data.get("result"):
                     return await m.edit_text("<tg-emoji emoji-id='6271611232457855630'>❌</tg-emoji> Track details not found. The video might be restricted or deleted.")
 
-                # Getting the first result safely
                 result = search_data["result"][0]
                 
                 title = result.get("title", "Unknown Title")
                 duration = result.get("duration", "Unknown Duration")
                 views = result.get("viewCount", {}).get("short", "0")
                 
-                # Handle thumbnail safely
                 thumbnails = result.get("thumbnails", [])
                 thumbnail = thumbnails[0]["url"].split("?")[0] if thumbnails else random.choice(START_IMG_URL)
                 
@@ -173,7 +170,6 @@ async def start_pm(client, message: Message, _):
                     title, duration, views, published, channellink, channel, app.mention
                 )
                 
-                # ✅ Random Colors applied to track info buttons
                 s_map = get_style_map()
                 key = InlineKeyboardMarkup(
                     [
@@ -197,13 +193,11 @@ async def start_pm(client, message: Message, _):
                     )
             except Exception as e:
                 return await m.edit_text(f"<tg-emoji emoji-id='6271611232457855630'>❌</tg-emoji> An error occurred while fetching track info: `{e}`")
-            # --- FIX ENDS HERE ---
 
     else:
-        # User ne normally /start bheja hai bina kisi deep link ke
+        # User ne normally /start bheja hai
         await app.send_chat_action(message.chat.id, ChatAction.TYPING)
         
-        # 👉 Yahan Sticker Send Hoga (Start Message se pehle)
         await message.reply_sticker("CAACAgUAAxkBAAFJgZ1qBGwx9Z9vW5BhG3dw0l1A5j4CyQACXRYAAuc-wVWs4--9DGlDKzsE")
         
         # 👇 Yahan live typewriter stream execute hota hai
@@ -216,7 +210,7 @@ async def start_pm(client, message: Message, _):
             client=client,
             chat_id=message.chat.id,
             full_html=welcome_html,
-            chunk_delay=0.08  # Typewriting speed (seconds per chunk)
+            chunk_delay=0.08
         )
         
         if await is_on_off(2):
