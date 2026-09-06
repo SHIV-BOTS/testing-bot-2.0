@@ -77,7 +77,7 @@ Play your favorite tracks, manage playlists, and enjoy uninterrupted high-qualit
   <tg-button type="url" url="https://t.me/{bot_username}?startgroup=true">➕ Add Me To Your Group</tg-button>
 </tg-button-row>
 <tg-button-row align="justify">
-  <tg-button type="callback_data" data="settings_back_helper">❓ Help & Commands</tg-button>
+  <tg-button type="callback_data"  data="settings_back_helper">❓ Help & Commands</tg-button>
   <tg-button type="callback_data" data="settings_helper">⚙️ Settings</tg-button>
 </tg-button-row>
 <tg-button-row align="justify">
@@ -85,7 +85,7 @@ Play your favorite tracks, manage playlists, and enjoy uninterrupted high-qualit
   <tg-button type="url" url="{update_link}">📢 Updates</tg-button>
 </tg-button-row>
 <tg-button-row align="center">
-  <tg-button type="url" url="https://t.me/theshiv">🧑‍💻 the shiv</tg-button>
+  <tg-button type="url" url="https://t.me/sukoon_s">🧑‍💻 MY DAD</tg-button>
 </tg-button-row>
 """
 
