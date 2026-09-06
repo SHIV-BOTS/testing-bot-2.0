@@ -29,6 +29,9 @@ from PritiMusic.utils.inline import help_pannel, private_panel, start_panel
 from config import BANNED_USERS, START_IMG_URL, CMBOT
 from strings import get_string
 
+# 👇 Typewriter Stream import
+from app.utils.progress import stream_typewriter_rich_message
+
 # 💎 Premium Emojis List for Buttons (icon_custom_emoji_id)
 PREMIUM_EMOJIS = [
     "5258362837411045098", "6102938383456146362", "5463274047771000031", "6100397162976252509",
@@ -62,6 +65,34 @@ EFFECT_ID = [
 ]
 
 
+# 👇 HTML Builder yahan define kiya gaya hai
+def build_welcome_html(user_mention: str, bot_mention: str) -> str:
+    # config se dynamically links nikalne ka try kar rahe hain
+    support_link = config.SUPPORT_CHAT if hasattr(config, 'SUPPORT_CHAT') else "https://t.me/YourSupportGroup"
+    update_link = config.SUPPORT_CHANNEL if hasattr(config, 'SUPPORT_CHANNEL') else "https://t.me/YourUpdateChannel"
+    
+    return f"""
+<h2>✨ <mark>Welcome to {bot_mention}!</mark></h2>
+<blockquote expandable>
+Hello <b>{user_mention}</b>, I am an advanced Telegram Music Bot.
+Play your favorite tracks, manage playlists, and enjoy uninterrupted high-quality music streaming directly in your group voice chats.
+</blockquote><br>
+
+<b>⚡️ Quick Navigation:</b><br>
+• Type <b>/play [song name]</b> in your group to start listening.<br>
+• Check our Support & Updates channels for the latest features.<br>
+• Add me to your group and let the music play!
+
+<tg-button-row align="justify">
+  <tg-button type="url" style="primary" url="{support_link}">💬 Support</tg-button>
+  <tg-button type="url" style="primary" url="{update_link}">📢 Updates</tg-button>
+</tg-button-row>
+<tg-button-row align="center">
+  <tg-button type="url" style="secondary" url="https://t.me/theshiv">🧑‍💻 the shiv</tg-button>
+</tg-button-row>
+"""
+
+
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_pm(client, message: Message, _):
@@ -81,6 +112,7 @@ async def start_pm(client, message: Message, _):
     await asyncio.sleep(0.5)
 
     await loading_1.delete()
+    
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
         
@@ -98,6 +130,7 @@ async def start_pm(client, message: Message, _):
                 caption=_["help_1"].format(config.SUPPORT_CHAT),
                 reply_markup=keyboard,
             )
+            
         if name[0:3] == "sud":
             await sudoers_list(client=client, message=message, _=_)
             if await is_on_off(2):
@@ -106,6 +139,7 @@ async def start_pm(client, message: Message, _):
                     text=f"<tg-emoji emoji-id='6172312314423808834'>✨</tg-emoji> {message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>sᴜᴅᴏʟɪsᴛ</b>.\n\n<tg-emoji emoji-id='5258362837411045098'>👤</tg-emoji> <b>ᴜsᴇʀ ɪᴅ ➠</b> <code>{message.from_user.id}</code>\n<tg-emoji emoji-id='6235576525563895420'>📍</tg-emoji> <b>ᴜsᴇʀɴᴀᴍᴇ ➠</b> @{message.from_user.username}",
                 )
             return
+            
         if name[0:3] == "inf":
             m = await message.reply_text("<tg-emoji emoji-id='5429571366384842791'>🔎</tg-emoji>")
             query = (str(name)).replace("info_", "", 1)
@@ -166,18 +200,25 @@ async def start_pm(client, message: Message, _):
             # --- FIX ENDS HERE ---
 
     else:
-        out = private_panel(_)
+        # User ne normally /start bheja hai bina kisi deep link ke
         await app.send_chat_action(message.chat.id, ChatAction.TYPING)
         
-        # 👉 Yahan Sticker Send Hoga (Start Image se pehle)
+        # 👉 Yahan Sticker Send Hoga (Start Message se pehle)
         await message.reply_sticker("CAACAgUAAxkBAAFJgZ1qBGwx9Z9vW5BhG3dw0l1A5j4CyQACXRYAAuc-wVWs4--9DGlDKzsE")
         
-        # 👉 Uske baad Start Image Send Hogi
-        await message.reply_photo(
-            random.choice(START_IMG_URL),
-            caption=_["start_2"].format(message.from_user.mention, app.mention),
-            reply_markup=InlineKeyboardMarkup(out),
+        # 👇 Yahan live typewriter stream execute hota hai
+        welcome_html = build_welcome_html(
+            user_mention=message.from_user.mention, 
+            bot_mention=app.mention
         )
+        
+        await stream_typewriter_rich_message(
+            client=client,
+            chat_id=message.chat.id,
+            full_html=welcome_html,
+            chunk_delay=0.08  # Typewriting speed (seconds per chunk)
+        )
+        
         if await is_on_off(2):
             return await app.send_message(
                 chat_id=config.LOGGER_ID,
