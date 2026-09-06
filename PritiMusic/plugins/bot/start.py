@@ -77,7 +77,7 @@ Play your favorite tracks, manage playlists, and enjoy uninterrupted high-qualit
   <tg-button type="url" url="https://t.me/{bot_username}?startgroup=true">➕ Add Me To Your Group</tg-button>
 </tg-button-row>
 <tg-button-row align="justify">
-  <tg-button type="callback_data"  data="settings_back_helper">❓ Help & Commands</tg-button>
+  <tg-button type="callback_data" data="settings_back_helper">❓ Help & Commands</tg-button>
   <tg-button type="callback_data" data="settings_helper">⚙️ Settings</tg-button>
 </tg-button-row>
 <tg-button-row align="justify">
