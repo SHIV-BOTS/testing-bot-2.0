@@ -6,6 +6,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 async def stream_typewriter_rich_message(client, chat_id, full_html, reply_markup=None, chunk_delay=0.08):
     """
     Simulates a typewriter effect and parses custom <tg-button-row> HTML into Telegram buttons.
+    Includes Auto-Closer logic to prevent HTML format breaking during live edits.
     """
     keyboard = []
     
@@ -26,14 +27,14 @@ async def stream_typewriter_rich_message(client, chat_id, full_html, reply_marku
         if row_buttons:
             keyboard.append(row_buttons)
 
-    # 2. HTML Text se buttons wala part remove kar dena (taaki text me dikhayi na de)
+    # 2. HTML Text se buttons wala part remove kar dena
     clean_html = re.sub(row_pattern, '', full_html, flags=re.DOTALL).strip()
     
     # Final keyboard set karna
     final_markup = InlineKeyboardMarkup(keyboard) if keyboard else reply_markup
 
     # 3. Typewriter Animation Logic
-    msg = await client.send_message(chat_id, "🔄 Loading Baby...")
+    msg = await client.send_message(chat_id, "<b><tg-emoji emoji-id='5373310679241466020'>🌀</tg-emoji> ᴌᴏᴀᴅɪɴɢ....</b>")
     await asyncio.sleep(0.2)
     
     lines = clean_html.split('\n')
@@ -41,9 +42,19 @@ async def stream_typewriter_rich_message(client, chat_id, full_html, reply_marku
     
     for line in lines:
         text_so_far += line + "\n"
+        
+        # 👇 AUTO-CLOSER LOGIC: Live typing ke time format break hone se bachane ke liye
+        payload = text_so_far
+        
+        # Agar blockquote ya table open hai par close nahi hua, toh temporarily close karein
+        if "<table" in payload and "</table>" not in payload:
+            payload += "\n</table>"
+        if "<blockquote" in payload and "</blockquote>" not in payload:
+            payload += "\n</blockquote>"
+            
         try:
-            if text_so_far.strip():
-                await msg.edit_text(text_so_far, disable_web_page_preview=True)
+            if payload.strip():
+                await msg.edit_text(payload, disable_web_page_preview=True)
                 await asyncio.sleep(chunk_delay)
         except MessageNotModified:
             continue
