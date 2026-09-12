@@ -26,6 +26,7 @@ spotipy
 tgcrypto>=1.2.5
 kurigram
 telegraph
+ftmgram
 unidecode
 youtube-search
 youtube-search-python==1.6.6
