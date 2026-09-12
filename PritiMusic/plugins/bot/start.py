@@ -28,6 +28,13 @@ from PritiMusic.utils.inline import help_pannel, start_panel
 from config import BANNED_USERS, START_IMG_URL, CMBOT
 from strings import get_string
 
+PREMIUM_EMOJIS = [
+    "5258362837411045098", "6102938383456146362", "5463274047771000031", "6100397162976252509",
+    "5373310679241466020", "5408916593780470262", "5776182936638329359", "5258389041006518073",
+    "6280269890821558384", "5936143551854285132", "6172332822892647766", "5891211339170326418",
+    "5409368076447657845", "6172312314423808834", "6082387600599944892", "6271537028307881531"
+]
+
 def create_btn(text, cb=None, url=None, user_id=None):
     kwargs = {"text": text}
     if cb: kwargs["callback_data"] = cb
@@ -82,8 +89,8 @@ def build_welcome_html(user_mention: str, bot_mention: str, bot_username: str) -
   <tg-button type="url" style="success" url="https://t.me/{bot_username}?startgroup=true">👻 ADD ME TO YOUR GROUP</tg-button>
 </tg-button-row>
 <tg-button-row align="justify">
-  <tg-button type="url" style="primary" url="https://t.me/the_shiv">🪄 the shiv</tg-button>
-  <tg-button type="url" style="primary" url="https://t.me/clone_bot">🤖 CLONE</tg-button>
+  <tg-button type="url" style="primary" url="https://t.me/SUKOON_S">🪄 DAD</tg-button>
+  <tg-button type="url" style="primary" url="https://t.me/clone_MUSICrobot">🤖 CLONE</tg-button>
 </tg-button-row>
 <tg-button-row align="justify">
   <tg-button type="url" style="secondary" url="{support_link}">👻 SUPPORT</tg-button>
@@ -201,11 +208,10 @@ async def start_pm(client, message: Message, _):
             bot_username=app.username
         )
         
-        # 👇 Integrated ftmgram send_rich_message setup 
+        # 👇 Reply functionality removed to fix the TypeError
         await app.send_rich_message(
             chat_id=message.chat.id,
-            rich_message=InputRichMessage(html=welcome_html),
-            reply_to_message_id=message.id
+            rich_message=InputRichMessage(html=welcome_html)
         )
         
         if await is_on_off(2):
@@ -228,5 +234,32 @@ async def start_gp(client, message: Message, _):
 
 @app.on_message(filters.new_chat_members, group=-1)
 async def welcome(client, message: Message):
-    # Same standard group welcome logic
-    pass
+    for member in message.new_chat_members:
+        try:
+            language = await get_lang(message.chat.id)
+            _ = get_string(language)
+            if await is_banned_user(member.id):
+                try:
+                    await message.chat.ban_member(member.id)
+                except:
+                    pass
+            if member.id == app.id:
+                if message.chat.type != ChatType.SUPERGROUP:
+                    await message.reply_text(_["start_4"])
+                    return await app.leave_chat(message.chat.id)
+                if message.chat.id in await blacklisted_chats():
+                    await message.reply_text(
+                        _["start_5"].format(app.mention, f"https://t.me/{app.username}?start=sudolist", config.SUPPORT_CHAT),
+                        disable_web_page_preview=True,
+                    )
+                    return await app.leave_chat(message.chat.id)
+
+                out = start_panel(_)
+                await message.reply_text(
+                    text=_["start_3"].format(message.from_user.mention, app.mention, message.chat.title, app.mention),
+                    reply_markup=InlineKeyboardMarkup(out),
+                )
+                await add_served_chat(message.chat.id)
+                await message.stop_propagation()
+        except Exception as ex:
+            print(ex)
