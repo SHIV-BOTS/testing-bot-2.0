@@ -34,7 +34,7 @@ async def stream_typewriter_rich_message(client, chat_id, full_html, reply_marku
     final_markup = InlineKeyboardMarkup(keyboard) if keyboard else reply_markup
 
     # 3. Typewriter Animation Logic
-    msg = await client.send_message(chat_id, "<b><tg-emoji emoji-id='5373310679241466020'>🌀</tg-emoji> ᴌᴏᴀᴅɪɴɢ....</b>")
+    msg = await client.send_message(chat_id, "<b><tg-emoji emoji-id='5373310679241466020'>🌀</tg-emoji> STARTING BABY....</b>")
     await asyncio.sleep(0.2)
     
     lines = clean_html.split('\n')
