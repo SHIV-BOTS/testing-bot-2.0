@@ -46,46 +46,62 @@ def create_btn(text, cb=None, url=None, user_id=None, no_emoji=False):
     if not no_emoji: kwargs["icon_custom_emoji_id"] = int(random.choice(PREMIUM_EMOJIS))
     return InlineKeyboardButton(**kwargs)
 
-# 👇 Updated HTML Builder (with custom tg-button-row logic AND old music buttons)
+# 👇 Updated HTML Builder with Premium Emojis & New Formatting
 def build_welcome_html(user_mention: str, bot_mention: str, bot_username: str) -> str:
     support_link = config.SUPPORT_CHAT if hasattr(config, 'SUPPORT_CHAT') else "https://t.me/theshiv_support"
     update_link = config.SUPPORT_CHANNEL if hasattr(config, 'SUPPORT_CHANNEL') else "https://t.me/theshiv_updates"
     
     return f"""
-<b>✨ Welcome to {bot_mention}!</b>
+💐 <b>Greetings, {user_mention}!</b> 🥀
+
+💮 <b>ᴛʜɪs ɪs {bot_mention} <tg-emoji emoji-id='6172312314423808834'>✨</tg-emoji> : The Ultimate Destination For High-Quality Streaming.</b>
+
+<b><tg-emoji emoji-id='5408916593780470262'>🎧</tg-emoji> ϻυsɪᴄ ᴘʟᴧʏєʀ ᴡɪᴛʜ ᴄʟσηє ғєᴧᴛυʀєs</b>
+<b><tg-emoji emoji-id='5355051922862653659'>🤖</tg-emoji> ᴄʀєᴧᴛє ʏσυʀ σᴡη ʙσᴛ ɪηsᴛᴧηᴛʟʏ</b>
 
 <blockquote expandable>
-Hello <b>{user_mention}</b>, I am an advanced Telegram Music Bot.
-Play your favorite tracks, manage playlists, and enjoy uninterrupted high-quality music streaming directly in your group voice chats.
+<b>Bot Information</b>
+
+<br><b>Bot Reference</b><br>
+<table border="1">
+  <tr>
+    <th>Key</th>
+    <th>Information</th>
+  </tr>
+  <tr>
+    <td>Audio</td>
+    <td>Dolby-Atmos</td>
+  </tr>
+  <tr>
+    <td>Clone</td>
+    <td>Advance</td>
+  </tr>
+  <tr>
+    <td>ᴧᴄᴛɪᴠє</td>
+    <td>24x7</td>
+  </tr>
+  <tr>
+    <td>AutoPlay</td>
+    <td>Supported</td>
+  </tr>
+</table>
 </blockquote>
 
-<b>⚡️ Quick Navigation:</b>
-• Type <b>/play [song name]</b> in your group to start listening.
-• Check our Support & Updates channels for the latest features.
-• Add me to your group and let the music play!
-
-━━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━━
-❖ 🎧 ϻυsɪᴄ ᴘʟᴧʏєʀ ᴡɪᴛʜ ᴄʟσηє ғєᴧᴛυʀєs
-❖ 🤖 ᴄʀєᴧᴛє ʏσυʀ σᴡη ʙσᴛ ɪηsᴛᴧηᴛʟʏ
-❖ ⚡️ 24x7 ᴧᴄᴛɪᴠє | 💎 ᴘʀєϻɪυϻ ǫυᴧʟɪᴛʏ
-━━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━━
-❖ ❓ ᴄʟɪᴄᴋ ση ᴛʜє ʜєʟᴩ ʙυᴛᴛση ᴛσ ɢєᴛ ɪηғσ
-    ᴧʙσυᴛ ϻʏ ϻσᴅυʟєs ᴧηᴅ ᴄσϻϻᴧηᴅs...!
-━━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━━
+<blockquote>🎋 Click Help To See {bot_mention} 🎵 All Available Commands.</blockquote>
 
 <tg-button-row align="center">
-  <tg-button type="url" url="https://t.me/{bot_username}?startgroup=true">➕ Add Me To Your Group</tg-button>
+  <tg-button type="url" url="https://t.me/{bot_username}?startgroup=true">👻 ADD ME TO YOUR GROUP</tg-button>
 </tg-button-row>
 <tg-button-row align="justify">
-  <tg-button type="callback_data" data="settings_back_helper">❓ Help & Commands</tg-button>
-  <tg-button type="callback_data" data="settings_helper">⚙️ Settings</tg-button>
+  <tg-button type="url" url="https://t.me/sukoon_s">🪄 DAD</tg-button>
+  <tg-button type="url" url="https://t.me/clone_bot">🤖 CLONE</tg-button>
 </tg-button-row>
 <tg-button-row align="justify">
-  <tg-button type="url" url="{support_link}">💬 Support</tg-button>
-  <tg-button type="url" url="{update_link}">📢 Updates</tg-button>
+  <tg-button type="url" url="{support_link}">👻 SUPPORT</tg-button>
+  <tg-button type="url" url="{update_link}">⭐ SOURCE</tg-button>
 </tg-button-row>
 <tg-button-row align="center">
-  <tg-button type="url" url="https://t.me/sukoon_s">🧑‍💻 MY DAD</tg-button>
+  <tg-button type="callback_data" data="settings_back_helper">🎧 HELP AND COMMANDS</tg-button>
 </tg-button-row>
 """
 
@@ -191,14 +207,14 @@ async def start_pm(client, message: Message, _):
         await app.send_chat_action(message.chat.id, ChatAction.TYPING)
         await message.reply_sticker("CAACAgUAAxkBAAFJgZ1qBGwx9Z9vW5BhG3dw0l1A5j4CyQACXRYAAuc-wVWs4--9DGlDKzsE")
         
-        # HTML call, jahan bot_username bhi bheja ja raha hai (add to group button ke liye)
+        # HTML call
         welcome_html = build_welcome_html(
             user_mention=message.from_user.mention, 
             bot_mention=app.mention,
             bot_username=app.username
         )
         
-        # 👇 Live Typewriter Execution (HTML Tags ko Parser handle kar lega)
+        # 👇 Live Typewriter Execution
         await stream_typewriter_rich_message(
             client=client,
             chat_id=message.chat.id,
