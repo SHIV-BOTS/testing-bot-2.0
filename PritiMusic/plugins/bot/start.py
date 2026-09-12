@@ -2,7 +2,6 @@ import time
 import random
 import asyncio
 from pyrogram import filters
-# Yahan se maine ChatType import rakha hai, But ButtonStyle hata diya (taki error na aye)
 from pyrogram.enums import ChatType, ChatAction
 from pyrogram.types import InlineKeyboardMarkup, Message, InlineKeyboardButton
 from youtubesearchpython.__future__ import VideosSearch
@@ -24,7 +23,7 @@ from PritiMusic.utils.database import (
 )
 from PritiMusic.utils.decorators.language import LanguageStart
 from PritiMusic.utils.formatters import get_readable_time
-from PritiMusic.utils.inline import help_pannel, private_panel, start_panel
+from PritiMusic.utils.inline import help_pannel, start_panel
 from config import BANNED_USERS, START_IMG_URL, CMBOT
 from strings import get_string
 
@@ -46,7 +45,7 @@ def create_btn(text, cb=None, url=None, user_id=None, no_emoji=False):
     if not no_emoji: kwargs["icon_custom_emoji_id"] = int(random.choice(PREMIUM_EMOJIS))
     return InlineKeyboardButton(**kwargs)
 
-# 👇 Updated HTML Builder with Premium Emojis & New Formatting
+# 👇 Custom HTML Builder with Table and Button Rows
 def build_welcome_html(user_mention: str, bot_mention: str, bot_username: str) -> str:
     support_link = config.SUPPORT_CHAT if hasattr(config, 'SUPPORT_CHAT') else "https://t.me/theshiv_support"
     update_link = config.SUPPORT_CHANNEL if hasattr(config, 'SUPPORT_CHANNEL') else "https://t.me/theshiv_updates"
@@ -93,7 +92,7 @@ def build_welcome_html(user_mention: str, bot_mention: str, bot_username: str) -
   <tg-button type="url" url="https://t.me/{bot_username}?startgroup=true">👻 ADD ME TO YOUR GROUP</tg-button>
 </tg-button-row>
 <tg-button-row align="justify">
-  <tg-button type="url" url="https://t.me/sukoon_s">🪄 DAD</tg-button>
+  <tg-button type="url" url="https://t.me/the_shiv">🪄 DAD</tg-button>
   <tg-button type="url" url="https://t.me/clone_bot">🤖 CLONE</tg-button>
 </tg-button-row>
 <tg-button-row align="justify">
@@ -104,7 +103,6 @@ def build_welcome_html(user_mention: str, bot_mention: str, bot_username: str) -
   <tg-button type="callback_data" data="settings_back_helper">🎧 HELP AND COMMANDS</tg-button>
 </tg-button-row>
 """
-
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
@@ -207,14 +205,14 @@ async def start_pm(client, message: Message, _):
         await app.send_chat_action(message.chat.id, ChatAction.TYPING)
         await message.reply_sticker("CAACAgUAAxkBAAFJgZ1qBGwx9Z9vW5BhG3dw0l1A5j4CyQACXRYAAuc-wVWs4--9DGlDKzsE")
         
-        # HTML call
+        # Build layout 
         welcome_html = build_welcome_html(
             user_mention=message.from_user.mention, 
             bot_mention=app.mention,
             bot_username=app.username
         )
         
-        # 👇 Live Typewriter Execution
+        # Execute Live Typewriter Setup parsing tg-button-rows internally
         await stream_typewriter_rich_message(
             client=client,
             chat_id=message.chat.id,
